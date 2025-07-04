@@ -1,6 +1,6 @@
-# drakkar-vfx
+# Drakkar VFX
 
-VFX editor for Bevy and Hanabi
+VFX editor for Bevy and Hanabi.
 
 ---
 
