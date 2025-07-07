@@ -1,6 +1,8 @@
 # Drakkar VFX
 
-VFX editor for Bevy and Hanabi.
+> 🚧 Beware! This repo is heavily under construction and a lot of things may change.
+
+Simple VFX editor for Bevy and Hanabi.
 
 ---
 
