@@ -1,5 +1,16 @@
 # Drakkar VFX
 
+## Demo
+
+<div align="center">
+    <a href="https://www.youtube.com/watch?v=esLGI0UAczU">
+        <img src="assets/demo.gif" alt="Drakkar VFX Demo" width="1024">
+    </a>
+</div>
+
+Watch the demo on YouTube: [Drakkar VFX Demo](https://www.youtube.com/watch?v=esLGI0UAczU)
+
+
 > 🚧 Beware! This repo is in active development and a lot of things may change.
 
 Simple VFX editor for [Bevy](https://bevyengine.org/) and [Hanabi](https://github.com/djeedai/bevy_hanabi).
@@ -71,16 +82,6 @@ cargo run --release \
 | 0.1     | 0.11 | 0.7*   |
 
 *Note: Drakkar VFX requires Hanabi from commit with public [APIs](https://github.com/jarl-opensource/bevy_hanabi/commit/bf36760d2f259699103ba5fd49f937ed66eec026).
-
-## Demo
-
-<div align="center">
-    <a href="https://www.youtube.com/watch?v=esLGI0UAczU">
-        <img src="assets/demo.gif" alt="Drakkar VFX Demo" width="1024">
-    </a>
-</div>
-
-Watch the demo on YouTube: [Drakkar VFX Demo](https://www.youtube.com/watch?v=esLGI0UAczU)
 
 ## OS Compatibility
 
