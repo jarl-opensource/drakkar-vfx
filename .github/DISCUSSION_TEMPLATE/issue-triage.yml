@@ -1,8 +1,5 @@
 name: Bug report for Drakkar
-description: File a detailed bug report so we can reproduce and fix the issue
-title: "[Bug] "
-labels: ["needs-confirmation"]
-
+description: File a detailed bug so we can reproduce and fix it
 body:
   - type: markdown
     attributes:
@@ -12,8 +9,8 @@ body:
     attributes:
       label: Issue Description
       description: |
-        Provide a detailed description of the issue. Include relevant information, such as:
-        - Screenshots, screen recordings, Hanabi assets, or other supporting media.
+        Provide a detailed description of the issue. Include:
+        - Screenshots, screen recordings, Hanabi assets, etc.
         - If this is a regression, link the previous discussion/issue/PR/commit.
     validations:
       required: true
@@ -21,21 +18,21 @@ body:
   - type: textarea
     attributes:
       label: Expected Behavior
-      description: Describe the behavior you **expected** Drakkar to have.
+      description: How should Drakkar behave?
     validations:
       required: true
 
   - type: textarea
     attributes:
       label: Actual Behavior
-      description: Describe the behavior Drakkar **actually** shows and how it differs.
+      description: How does Drakkar actually behave? What’s different?
     validations:
       required: true
 
   - type: textarea
     attributes:
       label: Reproduction Steps
-      description: Provide precise steps so we can reproduce the bug.
+      description: Step-by-step instructions to reproduce.
       placeholder: |
         1. Open Drakkar
         2. Select asset file
@@ -47,8 +44,7 @@ body:
     attributes:
       label: Drakkar Logs
       description: |
-        Paste logs or stack traces captured while reproducing the issue.
-        (Run Drakkar with `RUST_LOG=debug` to enable debug logs.)
+        Paste logs or stack traces (run with `RUST_LOG=debug`).
       render: text
 
   - type: textarea
@@ -70,7 +66,7 @@ body:
   - type: input
     attributes:
       label: OS Version Information
-      description: Tell us the OS name and version you’re using.
+      description: OS name and version.
       placeholder: Ubuntu 24.04 (Noble Numbat)
     validations:
       required: true
@@ -87,3 +83,7 @@ body:
         - Other
     validations:
       required: false
+
+title: "[Bug] "
+labels:
+  - needs-confirmation
