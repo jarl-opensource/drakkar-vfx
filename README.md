@@ -1,5 +1,9 @@
 # Drakkar VFX
 
+<div align="center">
+    <img src="assets/drakkar.jpg" alt="Drakkar VFX Logo" width="400">
+</div>
+
 > 🚧 Beware! This repo is in active development and a lot of things may change.
 
 Simple VFX editor for [Bevy](https://bevyengine.org/) and [Hanabi](https://github.com/djeedai/bevy_hanabi).
@@ -14,10 +18,6 @@ Simple VFX editor for [Bevy](https://bevyengine.org/) and [Hanabi](https://githu
 Watch the demo on YouTube: [Drakkar VFX Demo](https://www.youtube.com/watch?v=esLGI0UAczU)
 
 ---
-
-<div align="center">
-<img src="assets/drakkar.jpg" alt="Drakkar VFX Logo" width="400">
-</div>
 
 <div align="center">
     <a href="https://jarl-game.com/discord">
