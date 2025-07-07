@@ -1,0 +1,72 @@
+[package]
+name = "drakkar_vfx"
+edition = "2024"
+version = "0.1.0"
+authors = ["Jarl Team"]
+description = "Drakkar VFX"
+license = "Apache-2.0"
+repository = "https://github.com/jarl-opensource/drakkar-vfx"
+
+[lib]
+name = "drakkar_vfx"
+path = "src/lib.rs"
+
+[[bin]]
+name = "drakkar-vfx-viewer"
+path = "src/bin/viewer.rs"
+
+[[bin]]
+name = "drakkar-vfx"
+path = "src/bin/gui.rs"
+
+[dependencies]
+bevy_hanabi = { git = "https://github.com/jarl-opensource/bevy_hanabi.git", branch = "jarl-opensource/drakkar-api", features = [
+    "2d",
+] }
+
+
+anyhow = { version = "1.0" }
+bevy = { version = "0.11.3", features = [
+    "bevy_gizmos",
+    "bevy_gilrs",
+    "bevy_pbr",
+    "bevy_text",
+    "bevy_ui",
+    "png",
+    "x11",
+] }
+gix = { version = "0.72", default-features = false, features = [
+    "index",
+    "status",
+    "parallel",
+    "worktree-mutation",
+] }
+thiserror = { version = "1.0" }
+gpui = { git = "https://github.com/zed-industries/zed" }
+kanal = { version = "0.1", default-features = false, features = ["async"] }
+libc = { version = "0.2" }
+open = { version = "5.0" }
+ron = { version = "0.10" }
+serde = { version = "1.0" }
+serde_json = { version = "1.0" }
+tracing = { version = "0.1", default-features = false }
+tracing-subscriber = { version = "0.3", default-features = false }
+unicode-segmentation = { version = "1.12.0" }
+clap = { version = "4.5", default-features = true, features = ["derive"] }
+strum = { version = "0.27", default-features = false, features = ["derive"] }
+strum_macros = { version = "0.27", default-features = false }
+autopilot = { version = "0.4.1" }
+tokio = { version = "1", default-features = false, features = [
+    "rt",
+    "rt-multi-thread",
+    "macros",
+] }
+
+[dev-dependencies]
+tempfile = "3.8"
+
+[build-dependencies]
+vergen-gix = { version = "1.0.9", features = ["build", "cargo", "rustc", "si"] }
+
+[features]
+jarl = []

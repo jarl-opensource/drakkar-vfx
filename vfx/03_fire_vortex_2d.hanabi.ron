@@ -1,0 +1,756 @@
+(
+    name: "FireVortex",
+    capacity: 8192,
+    spawner: (
+        num_particles: Single(512.0),
+        spawn_time: Single(1.0),
+        period: Single(1.0),
+        starts_active: true,
+        starts_immediately: true,
+    ),
+    z_layer_2d: 1.0,
+    simulation_space: Global,
+    simulation_condition: Always,
+    init_modifiers: [
+        {
+            "SetPositionCircleModifier": (
+                center: (
+                    index: 1,
+                ),
+                axis: (
+                    index: 2,
+                ),
+                radius: (
+                    index: 3,
+                ),
+                dimension: Volume,
+            ),
+        },
+        {
+            "SetVelocitySphereModifier": (
+                center: (
+                    index: 4,
+                ),
+                speed: (
+                    index: 15,
+                ),
+            ),
+        },
+        {
+            "SetAttributeModifier": (
+                attribute: "age",
+                value: (
+                    index: 20,
+                ),
+            ),
+        },
+        {
+            "SetAttributeModifier": (
+                attribute: "lifetime",
+                value: (
+                    index: 27,
+                ),
+            ),
+        },
+    ],
+    update_modifiers: [
+        {
+            "LinearDragModifier": (
+                drag: (
+                    index: 28,
+                ),
+            ),
+        },
+        {
+            "AccelModifier": (
+                accel: (
+                    index: 35,
+                ),
+            ),
+        },
+        {
+            "RadialAccelModifier": (
+                origin: (
+                    index: 50,
+                ),
+                accel: (
+                    index: 65,
+                ),
+            ),
+        },
+        {
+            "TangentAccelModifier": (
+                origin: (
+                    index: 78,
+                ),
+                axis: (
+                    index: 83,
+                ),
+                accel: (
+                    index: 86,
+                ),
+            ),
+        },
+    ],
+    render_modifiers: [
+        {
+            "ColorOverLifetimeModifier": (
+                gradient: (
+                    keys: [
+                        (
+                            ratio: 0.0,
+                            value: (10.0, 10.0, 0.0, 1.0),
+                        ),
+                        (
+                            ratio: 0.06,
+                            value: (10.0, 0.0, 0.0, 1.0),
+                        ),
+                        (
+                            ratio: 0.15,
+                            value: (10.0, 0.0, 0.0, 1.0),
+                        ),
+                        (
+                            ratio: 0.2,
+                            value: (10.0, 0.0, 0.0, 0.8),
+                        ),
+                        (
+                            ratio: 0.39999998,
+                            value: (0.1, 0.1, 0.1, 0.35),
+                        ),
+                        (
+                            ratio: 0.6,
+                            value: (0.0, 0.0, 0.0, 0.02),
+                        ),
+                        (
+                            ratio: 1.0,
+                            value: (0.0, 0.0, 0.0, 0.0),
+                        ),
+                    ],
+                ),
+            ),
+        },
+        {
+            "SizeOverLifetimeModifier": (
+                gradient: (
+                    keys: [
+                        (
+                            ratio: 0.0,
+                            value: (1.2, 1.2),
+                        ),
+                        (
+                            ratio: 0.099999994,
+                            value: (0.8, 0.8),
+                        ),
+                        (
+                            ratio: 0.15,
+                            value: (0.8, 0.8),
+                        ),
+                        (
+                            ratio: 0.42999998,
+                            value: (0.3, 0.3),
+                        ),
+                        (
+                            ratio: 0.45,
+                            value: (1.2, 1.2),
+                        ),
+                        (
+                            ratio: 0.48999998,
+                            value: (6.0, 6.0),
+                        ),
+                        (
+                            ratio: 1.0,
+                            value: (12.0, 12.0),
+                        ),
+                    ],
+                ),
+                screen_space_size: false,
+            ),
+        },
+    ],
+    properties: [
+        (
+            name: "initial_vel",
+            default_value: Scalar(Float(320.0)),
+        ),
+        (
+            name: "spread",
+            default_value: Scalar(Float(1.0)),
+        ),
+        (
+            name: "lt",
+            default_value: Scalar(Float(5.0)),
+        ),
+        (
+            name: "rad_x",
+            default_value: Scalar(Float(32.0)),
+        ),
+        (
+            name: "rad_y",
+            default_value: Scalar(Float(32.0)),
+        ),
+        (
+            name: "rad_accel",
+            default_value: Scalar(Float(32.0)),
+        ),
+        (
+            name: "tan_r",
+            default_value: Scalar(Float(10.0)),
+        ),
+        (
+            name: "tan_accel",
+            default_value: Scalar(Float(15.0)),
+        ),
+    ],
+    motion_integration: PostUpdate,
+    module: (
+        expressions: [
+            Literal((
+                value: Vector((
+                    vector_type: (
+                        elem_type: Float,
+                        count: 3,
+                    ),
+                    storage: (0, 0, 0, 0),
+                )),
+            )),
+            Literal((
+                value: Vector((
+                    vector_type: (
+                        elem_type: Float,
+                        count: 3,
+                    ),
+                    storage: (0, 0, 0, 0),
+                )),
+            )),
+            Literal((
+                value: Scalar(Float(3.5)),
+            )),
+            Literal((
+                value: Vector((
+                    vector_type: (
+                        elem_type: Float,
+                        count: 3,
+                    ),
+                    storage: (1065353216, 1065353216, 1065353216, 0),
+                )),
+            )),
+            BuiltIn((
+                operator: Rand(Scalar(Float)),
+            )),
+            Property((
+                property_name: "spread",
+            )),
+            Binary(
+                op: Mul,
+                left: (
+                    index: 5,
+                ),
+                right: (
+                    index: 6,
+                ),
+            ),
+            Literal((
+                value: Scalar(Float(1.0)),
+            )),
+            Binary(
+                op: Add,
+                left: (
+                    index: 7,
+                ),
+                right: (
+                    index: 8,
+                ),
+            ),
+            Property((
+                property_name: "spread",
+            )),
+            Binary(
+                op: Sub,
+                left: (
+                    index: 9,
+                ),
+                right: (
+                    index: 10,
+                ),
+            ),
+            Property((
+                property_name: "initial_vel",
+            )),
+            Binary(
+                op: Mul,
+                left: (
+                    index: 11,
+                ),
+                right: (
+                    index: 12,
+                ),
+            ),
+            Literal((
+                value: Vector((
+                    vector_type: (
+                        elem_type: Float,
+                        count: 3,
+                    ),
+                    storage: (1065353216, 1065353216, 0, 0),
+                )),
+            )),
+            Binary(
+                op: Mul,
+                left: (
+                    index: 13,
+                ),
+                right: (
+                    index: 14,
+                ),
+            ),
+            BuiltIn((
+                operator: Rand(Scalar(Float)),
+            )),
+            Property((
+                property_name: "lt",
+            )),
+            Binary(
+                op: Mul,
+                left: (
+                    index: 16,
+                ),
+                right: (
+                    index: 17,
+                ),
+            ),
+            Literal((
+                value: Scalar(Float(0.3)),
+            )),
+            Binary(
+                op: Mul,
+                left: (
+                    index: 18,
+                ),
+                right: (
+                    index: 19,
+                ),
+            ),
+            BuiltIn((
+                operator: Rand(Scalar(Float)),
+            )),
+            Literal((
+                value: Scalar(Float(0.5)),
+            )),
+            Binary(
+                op: Mul,
+                left: (
+                    index: 21,
+                ),
+                right: (
+                    index: 22,
+                ),
+            ),
+            Literal((
+                value: Scalar(Float(0.5)),
+            )),
+            Binary(
+                op: Add,
+                left: (
+                    index: 23,
+                ),
+                right: (
+                    index: 24,
+                ),
+            ),
+            Property((
+                property_name: "lt",
+            )),
+            Binary(
+                op: Mul,
+                left: (
+                    index: 25,
+                ),
+                right: (
+                    index: 26,
+                ),
+            ),
+            Literal((
+                value: Scalar(Float(12.0)),
+            )),
+            Literal((
+                value: Vector((
+                    vector_type: (
+                        elem_type: Float,
+                        count: 3,
+                    ),
+                    storage: (1065353216, 1065353216, 0, 0),
+                )),
+            )),
+            Literal((
+                value: Scalar(Float(100.0)),
+            )),
+            Binary(
+                op: Mul,
+                left: (
+                    index: 29,
+                ),
+                right: (
+                    index: 30,
+                ),
+            ),
+            BuiltIn((
+                operator: Rand(Scalar(Float)),
+            )),
+            Literal((
+                value: Scalar(Float(0.5)),
+            )),
+            Binary(
+                op: Sub,
+                left: (
+                    index: 32,
+                ),
+                right: (
+                    index: 33,
+                ),
+            ),
+            Binary(
+                op: Mul,
+                left: (
+                    index: 31,
+                ),
+                right: (
+                    index: 34,
+                ),
+            ),
+            Literal((
+                value: Scalar(Float(32.0)),
+            )),
+            BuiltIn((
+                operator: Rand(Scalar(Float)),
+            )),
+            Literal((
+                value: Scalar(Float(3.14)),
+            )),
+            Binary(
+                op: Mul,
+                left: (
+                    index: 37,
+                ),
+                right: (
+                    index: 38,
+                ),
+            ),
+            Unary(
+                op: Sin,
+                expr: (
+                    index: 39,
+                ),
+            ),
+            Literal((
+                value: Vector((
+                    vector_type: (
+                        elem_type: Float,
+                        count: 3,
+                    ),
+                    storage: (1065353216, 0, 1065353216, 0),
+                )),
+            )),
+            Binary(
+                op: Mul,
+                left: (
+                    index: 40,
+                ),
+                right: (
+                    index: 41,
+                ),
+            ),
+            BuiltIn((
+                operator: Rand(Scalar(Float)),
+            )),
+            Literal((
+                value: Scalar(Float(3.14)),
+            )),
+            Binary(
+                op: Mul,
+                left: (
+                    index: 43,
+                ),
+                right: (
+                    index: 44,
+                ),
+            ),
+            Unary(
+                op: Cos,
+                expr: (
+                    index: 45,
+                ),
+            ),
+            Literal((
+                value: Vector((
+                    vector_type: (
+                        elem_type: Float,
+                        count: 3,
+                    ),
+                    storage: (0, 1065353216, 1065353216, 0),
+                )),
+            )),
+            Binary(
+                op: Mul,
+                left: (
+                    index: 46,
+                ),
+                right: (
+                    index: 47,
+                ),
+            ),
+            Binary(
+                op: Add,
+                left: (
+                    index: 42,
+                ),
+                right: (
+                    index: 48,
+                ),
+            ),
+            Binary(
+                op: Mul,
+                left: (
+                    index: 36,
+                ),
+                right: (
+                    index: 49,
+                ),
+            ),
+            Property((
+                property_name: "rad_accel",
+            )),
+            BuiltIn((
+                operator: Rand(Scalar(Float)),
+            )),
+            Literal((
+                value: Scalar(Float(3.14)),
+            )),
+            Binary(
+                op: Mul,
+                left: (
+                    index: 52,
+                ),
+                right: (
+                    index: 53,
+                ),
+            ),
+            Unary(
+                op: Sin,
+                expr: (
+                    index: 54,
+                ),
+            ),
+            Literal((
+                value: Vector((
+                    vector_type: (
+                        elem_type: Float,
+                        count: 3,
+                    ),
+                    storage: (1065353216, 0, 1065353216, 0),
+                )),
+            )),
+            Binary(
+                op: Mul,
+                left: (
+                    index: 55,
+                ),
+                right: (
+                    index: 56,
+                ),
+            ),
+            BuiltIn((
+                operator: Rand(Scalar(Float)),
+            )),
+            Literal((
+                value: Scalar(Float(3.14)),
+            )),
+            Binary(
+                op: Mul,
+                left: (
+                    index: 58,
+                ),
+                right: (
+                    index: 59,
+                ),
+            ),
+            Unary(
+                op: Cos,
+                expr: (
+                    index: 60,
+                ),
+            ),
+            Literal((
+                value: Vector((
+                    vector_type: (
+                        elem_type: Float,
+                        count: 3,
+                    ),
+                    storage: (0, 1065353216, 1065353216, 0),
+                )),
+            )),
+            Binary(
+                op: Mul,
+                left: (
+                    index: 61,
+                ),
+                right: (
+                    index: 62,
+                ),
+            ),
+            Binary(
+                op: Add,
+                left: (
+                    index: 57,
+                ),
+                right: (
+                    index: 63,
+                ),
+            ),
+            Binary(
+                op: Mul,
+                left: (
+                    index: 51,
+                ),
+                right: (
+                    index: 64,
+                ),
+            ),
+            Property((
+                property_name: "tan_r",
+            )),
+            Literal((
+                value: Vector((
+                    vector_type: (
+                        elem_type: Float,
+                        count: 3,
+                    ),
+                    storage: (1065353216, 0, 1065353216, 0),
+                )),
+            )),
+            BuiltIn((
+                operator: Rand(Scalar(Float)),
+            )),
+            Literal((
+                value: Scalar(Float(0.5)),
+            )),
+            Binary(
+                op: Sub,
+                left: (
+                    index: 68,
+                ),
+                right: (
+                    index: 69,
+                ),
+            ),
+            Binary(
+                op: Mul,
+                left: (
+                    index: 67,
+                ),
+                right: (
+                    index: 70,
+                ),
+            ),
+            Literal((
+                value: Vector((
+                    vector_type: (
+                        elem_type: Float,
+                        count: 3,
+                    ),
+                    storage: (0, 1065353216, 1065353216, 0),
+                )),
+            )),
+            BuiltIn((
+                operator: Rand(Scalar(Float)),
+            )),
+            Literal((
+                value: Scalar(Float(0.5)),
+            )),
+            Binary(
+                op: Sub,
+                left: (
+                    index: 73,
+                ),
+                right: (
+                    index: 74,
+                ),
+            ),
+            Binary(
+                op: Mul,
+                left: (
+                    index: 72,
+                ),
+                right: (
+                    index: 75,
+                ),
+            ),
+            Binary(
+                op: Add,
+                left: (
+                    index: 71,
+                ),
+                right: (
+                    index: 76,
+                ),
+            ),
+            Binary(
+                op: Mul,
+                left: (
+                    index: 66,
+                ),
+                right: (
+                    index: 77,
+                ),
+            ),
+            Literal((
+                value: Vector((
+                    vector_type: (
+                        elem_type: Float,
+                        count: 3,
+                    ),
+                    storage: (0, 0, 1065353216, 0),
+                )),
+            )),
+            BuiltIn((
+                operator: Time,
+            )),
+            Unary(
+                op: Sin,
+                expr: (
+                    index: 80,
+                ),
+            ),
+            Unary(
+                op: Abs,
+                expr: (
+                    index: 81,
+                ),
+            ),
+            Binary(
+                op: Mul,
+                left: (
+                    index: 79,
+                ),
+                right: (
+                    index: 82,
+                ),
+            ),
+            Property((
+                property_name: "tan_accel",
+            )),
+            Literal((
+                value: Scalar(Float(50.0)),
+            )),
+            Binary(
+                op: Mul,
+                left: (
+                    index: 84,
+                ),
+                right: (
+                    index: 85,
+                ),
+            ),
+        ],
+    ),
+    alpha_mode: Blend,
+)

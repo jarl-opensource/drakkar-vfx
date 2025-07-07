@@ -1,0 +1,33 @@
+# Improved AI Agent Coding Guidelines
+
+## API & Interface Integrity
+- **Preserve public APIs** — Never break existing public interfaces.
+- **Maintain trait implementations** — Only modify `impl Render`; all other trait implementations must remain unchanged when possible.
+
+## Code Quality Standards
+- **Prioritize conciseness** — Write minimal, efficient code.
+- **Maintain consistency** — Match existing code style and patterns exactly when possible.
+- **Design for reusability** — Create modular, composable solutions.
+
+## Modification Best Practices
+- **Minimize new code** — Leverage existing functionality before adding new implementations.
+- **Refactor when expanding** — When adding substantial code, improve the existing structure rather than just appending
+- **Document sparingly** — Add comments only for non-obvious logic or when explicitly requested.
+
+## Quick Reference Format
+
+```
+✓ DO:
+  - Preserve public APIs
+  - Match existing style
+  - Refactor during expansion
+  - Write reusable components
+  - Keep changes minimal
+
+✗ DON'T:
+  - Break interfaces
+  - Change traits (except Render)
+  - Add unnecessary comments
+  - Introduce inconsistent patterns
+  - Write redundant code
+```

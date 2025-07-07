@@ -2,7 +2,7 @@
 
 > 🚧 Beware! This repo is in active development and a lot of things may change.
 
-Simple VFX editor for Bevy and Hanabi.
+Simple VFX editor for [Bevy](https://bevyengine.org/) and [Hanabi](https://github.com/djeedai/bevy_hanabi).
 
 ---
 
@@ -15,3 +15,12 @@ Simple VFX editor for Bevy and Hanabi.
         <img src="https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0b5061df29d55a92d945_full_logo_blurple_RGB.svg" alt="Discord" width="240">
     </a>
 </div>
+
+## Crate Layout
+
+A single-crate Rust project that bundles two executables:
+
+| Binary   | Purpose                     |
+|----------|-----------------------------|
+| `gui`    | Stand-alone editor powered by **gpui** |
+| `viewer` | Real-time preview built on **Bevy**    |

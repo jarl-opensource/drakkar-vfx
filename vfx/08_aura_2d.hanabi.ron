@@ -1,0 +1,341 @@
+(
+    name: "LootAura",
+    capacity: 128,
+    spawner: (
+        num_particles: Single(2.0),
+        spawn_time: Single(1.0),
+        period: Single(1.0),
+        starts_active: true,
+        starts_immediately: true,
+    ),
+    z_layer_2d: 1.0,
+    simulation_space: Global,
+    simulation_condition: WhenVisible,
+    init_modifiers: [
+        {
+            "SetPositionCircleModifier": (
+                center: (
+                    index: 1,
+                ),
+                axis: (
+                    index: 4,
+                ),
+                radius: (
+                    index: 5,
+                ),
+                dimension: Volume,
+            ),
+        },
+        {
+            "SetAttributeModifier": (
+                attribute: "age",
+                value: (
+                    index: 8,
+                ),
+            ),
+        },
+        {
+            "SetAttributeModifier": (
+                attribute: "lifetime",
+                value: (
+                    index: 13,
+                ),
+            ),
+        },
+        {
+            "SetAttributeModifier": (
+                attribute: "velocity",
+                value: (
+                    index: 33,
+                ),
+            ),
+        },
+    ],
+    update_modifiers: [
+        {
+            "LinearDragModifier": (
+                drag: (
+                    index: 34,
+                ),
+            ),
+        },
+    ],
+    render_modifiers: [
+        {
+            "ColorOverLifetimeModifier": (
+                gradient: (
+                    keys: [
+                        (
+                            ratio: 0.0,
+                            value: (10.0, 5.019608, 10.0, 0.35),
+                        ),
+                        (
+                            ratio: 0.7,
+                            value: (10.0, 3.019608, 10.0, 1.0),
+                        ),
+                        (
+                            ratio: 1.0,
+                            value: (10.0, 3.019608, 10.0, 0.0),
+                        ),
+                    ],
+                ),
+            ),
+        },
+        {
+            "SizeOverLifetimeModifier": (
+                gradient: (
+                    keys: [
+                        (
+                            ratio: 0.0,
+                            value: (0.0, 0.0),
+                        ),
+                        (
+                            ratio: 0.099999994,
+                            value: (1.0, 1.0),
+                        ),
+                        (
+                            ratio: 0.41,
+                            value: (1.0, 1.0),
+                        ),
+                        (
+                            ratio: 1.0,
+                            value: (0.0, 0.0),
+                        ),
+                    ],
+                ),
+                screen_space_size: false,
+            ),
+        },
+    ],
+    properties: [
+        (
+            name: "lin_accel",
+            default_value: Scalar(Float(300.0)),
+        ),
+        (
+            name: "vel_x",
+            default_value: Scalar(Float(1.5)),
+        ),
+        (
+            name: "lt",
+            default_value: Scalar(Float(10.0)),
+        ),
+        (
+            name: "vel_y",
+            default_value: Scalar(Float(2.0)),
+        ),
+    ],
+    motion_integration: PostUpdate,
+    module: (
+        expressions: [
+            Literal((
+                value: Vector((
+                    vector_type: (
+                        elem_type: Float,
+                        count: 3,
+                    ),
+                    storage: (0, 0, 0, 0),
+                )),
+            )),
+            Literal((
+                value: Vector((
+                    vector_type: (
+                        elem_type: Float,
+                        count: 3,
+                    ),
+                    storage: (0, 0, 1065353216, 0),
+                )),
+            )),
+            BuiltIn((
+                operator: Rand(Scalar(Float)),
+            )),
+            Binary(
+                op: Mul,
+                left: (
+                    index: 2,
+                ),
+                right: (
+                    index: 3,
+                ),
+            ),
+            Literal((
+                value: Scalar(Float(32.0)),
+            )),
+            BuiltIn((
+                operator: Rand(Scalar(Float)),
+            )),
+            Property((
+                property_name: "lt",
+            )),
+            Binary(
+                op: Mul,
+                left: (
+                    index: 6,
+                ),
+                right: (
+                    index: 7,
+                ),
+            ),
+            BuiltIn((
+                operator: Rand(Scalar(Float)),
+            )),
+            Property((
+                property_name: "lt",
+            )),
+            Binary(
+                op: Mul,
+                left: (
+                    index: 9,
+                ),
+                right: (
+                    index: 10,
+                ),
+            ),
+            Property((
+                property_name: "lt",
+            )),
+            Binary(
+                op: Add,
+                left: (
+                    index: 11,
+                ),
+                right: (
+                    index: 12,
+                ),
+            ),
+            Literal((
+                value: Vector((
+                    vector_type: (
+                        elem_type: Float,
+                        count: 3,
+                    ),
+                    storage: (0, 1065353216, 0, 0),
+                )),
+            )),
+            Literal((
+                value: Scalar(Float(0.7)),
+            )),
+            BuiltIn((
+                operator: Rand(Scalar(Float)),
+            )),
+            Literal((
+                value: Scalar(Float(0.3)),
+            )),
+            Binary(
+                op: Mul,
+                left: (
+                    index: 16,
+                ),
+                right: (
+                    index: 17,
+                ),
+            ),
+            Binary(
+                op: Add,
+                left: (
+                    index: 15,
+                ),
+                right: (
+                    index: 18,
+                ),
+            ),
+            Binary(
+                op: Mul,
+                left: (
+                    index: 14,
+                ),
+                right: (
+                    index: 19,
+                ),
+            ),
+            Property((
+                property_name: "vel_y",
+            )),
+            Binary(
+                op: Mul,
+                left: (
+                    index: 20,
+                ),
+                right: (
+                    index: 21,
+                ),
+            ),
+            Literal((
+                value: Vector((
+                    vector_type: (
+                        elem_type: Float,
+                        count: 3,
+                    ),
+                    storage: (1065353216, 0, 0, 0),
+                )),
+            )),
+            Literal((
+                value: Scalar(Float(3.0)),
+            )),
+            BuiltIn((
+                operator: Time,
+            )),
+            Binary(
+                op: Mul,
+                left: (
+                    index: 24,
+                ),
+                right: (
+                    index: 25,
+                ),
+            ),
+            Attribute((
+                attr: "lifetime",
+            )),
+            Binary(
+                op: Add,
+                left: (
+                    index: 26,
+                ),
+                right: (
+                    index: 27,
+                ),
+            ),
+            Unary(
+                op: Sin,
+                expr: (
+                    index: 28,
+                ),
+            ),
+            Binary(
+                op: Mul,
+                left: (
+                    index: 23,
+                ),
+                right: (
+                    index: 29,
+                ),
+            ),
+            Property((
+                property_name: "vel_x",
+            )),
+            Binary(
+                op: Mul,
+                left: (
+                    index: 30,
+                ),
+                right: (
+                    index: 31,
+                ),
+            ),
+            Binary(
+                op: Add,
+                left: (
+                    index: 22,
+                ),
+                right: (
+                    index: 32,
+                ),
+            ),
+            Literal((
+                value: Scalar(Float(0.3)),
+            )),
+        ],
+    ),
+    alpha_mode: Blend,
+)

@@ -1,0 +1,869 @@
+(
+    name: "Bolt2",
+    capacity: 128,
+    spawner: (
+        num_particles: Single(128.0),
+        spawn_time: Single(0.0),
+        period: Single(1.0),
+        starts_active: true,
+        starts_immediately: true,
+    ),
+    z_layer_2d: 1.0,
+    simulation_space: Global,
+    simulation_condition: WhenVisible,
+    init_modifiers: [
+        {
+            "SetAttributeModifier": (
+                attribute: "position",
+                value: (
+                    index: 21,
+                ),
+            ),
+        },
+        {
+            "SetVelocitySphereModifier": (
+                center: (
+                    index: 22,
+                ),
+                speed: (
+                    index: 27,
+                ),
+            ),
+        },
+        {
+            "SetAttributeModifier": (
+                attribute: "age",
+                value: (
+                    index: 32,
+                ),
+            ),
+        },
+        {
+            "SetAttributeModifier": (
+                attribute: "lifetime",
+                value: (
+                    index: 37,
+                ),
+            ),
+        },
+    ],
+    update_modifiers: [
+        {
+            "LinearDragModifier": (
+                drag: (
+                    index: 44,
+                ),
+            ),
+        },
+        {
+            "AccelModifier": (
+                accel: (
+                    index: 65,
+                ),
+            ),
+        },
+        {
+            "ForceFieldModifier": (
+                sources: ((
+                    position: (10.0, 0.0, 0.0),
+                    max_radius: 16.0,
+                    min_radius: 10.0,
+                    mass: 5000.0,
+                    force_exponent: 0.5,
+                    conform_to_sphere: false,
+                ), (
+                    position: (-10.0, 10.0, 0.0),
+                    max_radius: 16.0,
+                    min_radius: 10.0,
+                    mass: 5000.0,
+                    force_exponent: 0.5,
+                    conform_to_sphere: false,
+                ), (
+                    position: (-10.0, -10.0, 0.0),
+                    max_radius: 16.0,
+                    min_radius: 10.0,
+                    mass: 5000.0,
+                    force_exponent: 0.5,
+                    conform_to_sphere: false,
+                ), (
+                    position: (-10.0, -20.0, 0.0),
+                    max_radius: 16.0,
+                    min_radius: 10.0,
+                    mass: 5000.0,
+                    force_exponent: 0.5,
+                    conform_to_sphere: false,
+                ), (
+                    position: (10.0, -20.0, 0.0),
+                    max_radius: 16.0,
+                    min_radius: 10.0,
+                    mass: 5000.0,
+                    force_exponent: 0.5,
+                    conform_to_sphere: false,
+                ), (
+                    position: (10.0, 20.0, 0.0),
+                    max_radius: 16.0,
+                    min_radius: 10.0,
+                    mass: 10000.0,
+                    force_exponent: 0.5,
+                    conform_to_sphere: false,
+                ), (
+                    position: (0.0, 30.0, 0.0),
+                    max_radius: 16.0,
+                    min_radius: 10.0,
+                    mass: 5000.0,
+                    force_exponent: 0.5,
+                    conform_to_sphere: false,
+                ), (
+                    position: (0.0, -30.0, 0.0),
+                    max_radius: 16.0,
+                    min_radius: 10.0,
+                    mass: 10000.0,
+                    force_exponent: 0.5,
+                    conform_to_sphere: false,
+                ), (
+                    position: (0.0, 0.0, 0.0),
+                    max_radius: 0.0,
+                    min_radius: 0.1,
+                    mass: 0.0,
+                    force_exponent: 0.0,
+                    conform_to_sphere: false,
+                ), (
+                    position: (0.0, 0.0, 0.0),
+                    max_radius: 0.0,
+                    min_radius: 0.1,
+                    mass: 0.0,
+                    force_exponent: 0.0,
+                    conform_to_sphere: false,
+                ), (
+                    position: (0.0, 0.0, 0.0),
+                    max_radius: 0.0,
+                    min_radius: 0.1,
+                    mass: 0.0,
+                    force_exponent: 0.0,
+                    conform_to_sphere: false,
+                ), (
+                    position: (0.0, 0.0, 0.0),
+                    max_radius: 0.0,
+                    min_radius: 0.1,
+                    mass: 0.0,
+                    force_exponent: 0.0,
+                    conform_to_sphere: false,
+                ), (
+                    position: (0.0, 0.0, 0.0),
+                    max_radius: 0.0,
+                    min_radius: 0.1,
+                    mass: 0.0,
+                    force_exponent: 0.0,
+                    conform_to_sphere: false,
+                ), (
+                    position: (0.0, 0.0, 0.0),
+                    max_radius: 0.0,
+                    min_radius: 0.1,
+                    mass: 0.0,
+                    force_exponent: 0.0,
+                    conform_to_sphere: false,
+                ), (
+                    position: (0.0, 0.0, 0.0),
+                    max_radius: 0.0,
+                    min_radius: 0.1,
+                    mass: 0.0,
+                    force_exponent: 0.0,
+                    conform_to_sphere: false,
+                ), (
+                    position: (0.0, 0.0, 0.0),
+                    max_radius: 0.0,
+                    min_radius: 0.1,
+                    mass: 0.0,
+                    force_exponent: 0.0,
+                    conform_to_sphere: false,
+                )),
+            ),
+        },
+    ],
+    render_modifiers: [
+        {
+            "ColorOverLifetimeModifier": (
+                gradient: (
+                    keys: [
+                        (
+                            ratio: 0.0,
+                            value: (10.0, 3.019608, 10.0, 1.0),
+                        ),
+                        (
+                            ratio: 0.1,
+                            value: (6.0, 0.0, 6.0, 1.0),
+                        ),
+                        (
+                            ratio: 0.15,
+                            value: (4.0, 0.0, 4.0, 1.0),
+                        ),
+                        (
+                            ratio: 0.2,
+                            value: (10.0, 2.1794872, 6.794872, 1.0),
+                        ),
+                        (
+                            ratio: 0.29999998,
+                            value: (1.0, 0.5019608, 1.0, 1.0),
+                        ),
+                        (
+                            ratio: 0.34,
+                            value: (0.0, 0.0, 0.0, 0.29999998),
+                        ),
+                        (
+                            ratio: 0.57,
+                            value: (0.0, 0.0, 0.0, 0.099999994),
+                        ),
+                        (
+                            ratio: 1.0,
+                            value: (0.0, 0.0, 0.0, 0.0),
+                        ),
+                    ],
+                ),
+            ),
+        },
+        {
+            "SizeOverLifetimeModifier": (
+                gradient: (
+                    keys: [
+                        (
+                            ratio: 0.0,
+                            value: (2.5, 2.5),
+                        ),
+                        (
+                            ratio: 0.1,
+                            value: (0.8, 0.8),
+                        ),
+                        (
+                            ratio: 0.15,
+                            value: (0.8, 0.8),
+                        ),
+                        (
+                            ratio: 0.26,
+                            value: (0.1, 0.1),
+                        ),
+                        (
+                            ratio: 0.31,
+                            value: (1.2, 1.2),
+                        ),
+                        (
+                            ratio: 0.375,
+                            value: (1.0, 1.0),
+                        ),
+                        (
+                            ratio: 0.45,
+                            value: (0.1, 0.1),
+                        ),
+                        (
+                            ratio: 1.0,
+                            value: (0.0, 0.0),
+                        ),
+                    ],
+                ),
+                screen_space_size: false,
+            ),
+        },
+    ],
+    properties: [
+        (
+            name: "lin_accel",
+            default_value: Scalar(Float(0.0)),
+        ),
+        (
+            name: "init_vel",
+            default_value: Scalar(Float(32.0)),
+        ),
+        (
+            name: "p",
+            default_value: Scalar(Float(12.0)),
+        ),
+        (
+            name: "lt",
+            default_value: Scalar(Float(0.8)),
+        ),
+        (
+            name: "h",
+            default_value: Scalar(Float(48.0)),
+        ),
+        (
+            name: "drag",
+            default_value: Scalar(Float(16.0)),
+        ),
+        (
+            name: "rot",
+            default_value: Scalar(Float(1.66)),
+        ),
+    ],
+    motion_integration: PostUpdate,
+    module: (
+        expressions: [
+            Literal((
+                value: Vector((
+                    vector_type: (
+                        elem_type: Float,
+                        count: 3,
+                    ),
+                    storage: (1065353216, 0, 0, 0),
+                )),
+            )),
+            BuiltIn((
+                operator: Rand(Scalar(Float)),
+            )),
+            Literal((
+                value: Scalar(Float(0.5)),
+            )),
+            Binary(
+                op: Sub,
+                left: (
+                    index: 2,
+                ),
+                right: (
+                    index: 3,
+                ),
+            ),
+            Binary(
+                op: Mul,
+                left: (
+                    index: 1,
+                ),
+                right: (
+                    index: 4,
+                ),
+            ),
+            Property((
+                property_name: "h",
+            )),
+            Binary(
+                op: Mul,
+                left: (
+                    index: 5,
+                ),
+                right: (
+                    index: 6,
+                ),
+            ),
+            Property((
+                property_name: "rot",
+            )),
+            Unary(
+                op: Cos,
+                expr: (
+                    index: 8,
+                ),
+            ),
+            Binary(
+                op: Mul,
+                left: (
+                    index: 7,
+                ),
+                right: (
+                    index: 9,
+                ),
+            ),
+            Literal((
+                value: Vector((
+                    vector_type: (
+                        elem_type: Float,
+                        count: 3,
+                    ),
+                    storage: (0, 1065353216, 0, 0),
+                )),
+            )),
+            BuiltIn((
+                operator: Rand(Scalar(Float)),
+            )),
+            Literal((
+                value: Scalar(Float(0.5)),
+            )),
+            Binary(
+                op: Sub,
+                left: (
+                    index: 12,
+                ),
+                right: (
+                    index: 13,
+                ),
+            ),
+            Binary(
+                op: Mul,
+                left: (
+                    index: 11,
+                ),
+                right: (
+                    index: 14,
+                ),
+            ),
+            Property((
+                property_name: "h",
+            )),
+            Binary(
+                op: Mul,
+                left: (
+                    index: 15,
+                ),
+                right: (
+                    index: 16,
+                ),
+            ),
+            Property((
+                property_name: "rot",
+            )),
+            Unary(
+                op: Sin,
+                expr: (
+                    index: 18,
+                ),
+            ),
+            Binary(
+                op: Mul,
+                left: (
+                    index: 17,
+                ),
+                right: (
+                    index: 19,
+                ),
+            ),
+            Binary(
+                op: Add,
+                left: (
+                    index: 10,
+                ),
+                right: (
+                    index: 20,
+                ),
+            ),
+            Literal((
+                value: Vector((
+                    vector_type: (
+                        elem_type: Float,
+                        count: 3,
+                    ),
+                    storage: (0, 0, 0, 0),
+                )),
+            )),
+            BuiltIn((
+                operator: Rand(Scalar(Float)),
+            )),
+            Literal((
+                value: Scalar(Float(0.5)),
+            )),
+            Binary(
+                op: Sub,
+                left: (
+                    index: 23,
+                ),
+                right: (
+                    index: 24,
+                ),
+            ),
+            Property((
+                property_name: "init_vel",
+            )),
+            Binary(
+                op: Mul,
+                left: (
+                    index: 25,
+                ),
+                right: (
+                    index: 26,
+                ),
+            ),
+            BuiltIn((
+                operator: Rand(Scalar(Float)),
+            )),
+            Property((
+                property_name: "lt",
+            )),
+            Binary(
+                op: Mul,
+                left: (
+                    index: 28,
+                ),
+                right: (
+                    index: 29,
+                ),
+            ),
+            Literal((
+                value: Scalar(Float(2.0)),
+            )),
+            Binary(
+                op: Div,
+                left: (
+                    index: 30,
+                ),
+                right: (
+                    index: 31,
+                ),
+            ),
+            BuiltIn((
+                operator: Rand(Scalar(Float)),
+            )),
+            Property((
+                property_name: "lt",
+            )),
+            Binary(
+                op: Mul,
+                left: (
+                    index: 33,
+                ),
+                right: (
+                    index: 34,
+                ),
+            ),
+            Property((
+                property_name: "lt",
+            )),
+            Binary(
+                op: Add,
+                left: (
+                    index: 35,
+                ),
+                right: (
+                    index: 36,
+                ),
+            ),
+            Property((
+                property_name: "drag",
+            )),
+            Attribute((
+                attr: "age",
+            )),
+            Binary(
+                op: Mul,
+                left: (
+                    index: 38,
+                ),
+                right: (
+                    index: 39,
+                ),
+            ),
+            Property((
+                property_name: "drag",
+            )),
+            Attribute((
+                attr: "age",
+            )),
+            Binary(
+                op: Mul,
+                left: (
+                    index: 41,
+                ),
+                right: (
+                    index: 42,
+                ),
+            ),
+            Binary(
+                op: Mul,
+                left: (
+                    index: 40,
+                ),
+                right: (
+                    index: 43,
+                ),
+            ),
+            Literal((
+                value: Vector((
+                    vector_type: (
+                        elem_type: Float,
+                        count: 3,
+                    ),
+                    storage: (1065353216, 0, 0, 0),
+                )),
+            )),
+            BuiltIn((
+                operator: Rand(Scalar(Float)),
+            )),
+            Literal((
+                value: Scalar(Float(0.5)),
+            )),
+            Binary(
+                op: Sub,
+                left: (
+                    index: 46,
+                ),
+                right: (
+                    index: 47,
+                ),
+            ),
+            Binary(
+                op: Mul,
+                left: (
+                    index: 45,
+                ),
+                right: (
+                    index: 48,
+                ),
+            ),
+            Property((
+                property_name: "lin_accel",
+            )),
+            Binary(
+                op: Mul,
+                left: (
+                    index: 49,
+                ),
+                right: (
+                    index: 50,
+                ),
+            ),
+            Attribute((
+                attr: "age",
+            )),
+            Unary(
+                op: Sin,
+                expr: (
+                    index: 52,
+                ),
+            ),
+            Binary(
+                op: Mul,
+                left: (
+                    index: 51,
+                ),
+                right: (
+                    index: 53,
+                ),
+            ),
+            Literal((
+                value: Vector((
+                    vector_type: (
+                        elem_type: Float,
+                        count: 3,
+                    ),
+                    storage: (0, 1065353216, 0, 0),
+                )),
+            )),
+            BuiltIn((
+                operator: Rand(Scalar(Float)),
+            )),
+            Literal((
+                value: Scalar(Float(0.5)),
+            )),
+            Binary(
+                op: Sub,
+                left: (
+                    index: 56,
+                ),
+                right: (
+                    index: 57,
+                ),
+            ),
+            Binary(
+                op: Mul,
+                left: (
+                    index: 55,
+                ),
+                right: (
+                    index: 58,
+                ),
+            ),
+            Property((
+                property_name: "lin_accel",
+            )),
+            Binary(
+                op: Mul,
+                left: (
+                    index: 59,
+                ),
+                right: (
+                    index: 60,
+                ),
+            ),
+            Attribute((
+                attr: "age",
+            )),
+            Unary(
+                op: Sin,
+                expr: (
+                    index: 62,
+                ),
+            ),
+            Binary(
+                op: Mul,
+                left: (
+                    index: 61,
+                ),
+                right: (
+                    index: 63,
+                ),
+            ),
+            Binary(
+                op: Add,
+                left: (
+                    index: 54,
+                ),
+                right: (
+                    index: 64,
+                ),
+            ),
+            Literal((
+                value: Vector((
+                    vector_type: (
+                        elem_type: Float,
+                        count: 3,
+                    ),
+                    storage: (1092616192, 0, 0, 0),
+                )),
+            )),
+            Literal((
+                value: Scalar(Float(16.0)),
+            )),
+            Literal((
+                value: Scalar(Float(10.0)),
+            )),
+            Literal((
+                value: Scalar(Float(5000.0)),
+            )),
+            Literal((
+                value: Scalar(Float(0.5)),
+            )),
+            Literal((
+                value: Vector((
+                    vector_type: (
+                        elem_type: Float,
+                        count: 3,
+                    ),
+                    storage: (3240099840, 1092616192, 0, 0),
+                )),
+            )),
+            Literal((
+                value: Scalar(Float(16.0)),
+            )),
+            Literal((
+                value: Scalar(Float(10.0)),
+            )),
+            Literal((
+                value: Scalar(Float(5000.0)),
+            )),
+            Literal((
+                value: Scalar(Float(0.5)),
+            )),
+            Literal((
+                value: Vector((
+                    vector_type: (
+                        elem_type: Float,
+                        count: 3,
+                    ),
+                    storage: (3240099840, 3240099840, 0, 0),
+                )),
+            )),
+            Literal((
+                value: Scalar(Float(16.0)),
+            )),
+            Literal((
+                value: Scalar(Float(10.0)),
+            )),
+            Literal((
+                value: Scalar(Float(5000.0)),
+            )),
+            Literal((
+                value: Scalar(Float(0.5)),
+            )),
+            Literal((
+                value: Vector((
+                    vector_type: (
+                        elem_type: Float,
+                        count: 3,
+                    ),
+                    storage: (3240099840, 3248488448, 0, 0),
+                )),
+            )),
+            Literal((
+                value: Scalar(Float(16.0)),
+            )),
+            Literal((
+                value: Scalar(Float(10.0)),
+            )),
+            Literal((
+                value: Scalar(Float(5000.0)),
+            )),
+            Literal((
+                value: Scalar(Float(0.5)),
+            )),
+            Literal((
+                value: Vector((
+                    vector_type: (
+                        elem_type: Float,
+                        count: 3,
+                    ),
+                    storage: (1092616192, 3248488448, 0, 0),
+                )),
+            )),
+            Literal((
+                value: Scalar(Float(16.0)),
+            )),
+            Literal((
+                value: Scalar(Float(10.0)),
+            )),
+            Literal((
+                value: Scalar(Float(5000.0)),
+            )),
+            Literal((
+                value: Scalar(Float(0.5)),
+            )),
+            Literal((
+                value: Vector((
+                    vector_type: (
+                        elem_type: Float,
+                        count: 3,
+                    ),
+                    storage: (1092616192, 1101004800, 0, 0),
+                )),
+            )),
+            Literal((
+                value: Scalar(Float(16.0)),
+            )),
+            Literal((
+                value: Scalar(Float(10.0)),
+            )),
+            Literal((
+                value: Scalar(Float(10000.0)),
+            )),
+            Literal((
+                value: Scalar(Float(0.5)),
+            )),
+            Literal((
+                value: Vector((
+                    vector_type: (
+                        elem_type: Float,
+                        count: 3,
+                    ),
+                    storage: (0, 1106247680, 0, 0),
+                )),
+            )),
+            Literal((
+                value: Scalar(Float(16.0)),
+            )),
+            Literal((
+                value: Scalar(Float(10.0)),
+            )),
+            Literal((
+                value: Scalar(Float(5000.0)),
+            )),
+            Literal((
+                value: Scalar(Float(0.5)),
+            )),
+            Literal((
+                value: Vector((
+                    vector_type: (
+                        elem_type: Float,
+                        count: 3,
+                    ),
+                    storage: (0, 3253731328, 0, 0),
+                )),
+            )),
+            Literal((
+                value: Scalar(Float(16.0)),
+            )),
+            Literal((
+                value: Scalar(Float(10.0)),
+            )),
+            Literal((
+                value: Scalar(Float(10000.0)),
+            )),
+            Literal((
+                value: Scalar(Float(0.5)),
+            )),
+        ],
+    ),
+    alpha_mode: Blend,
+)

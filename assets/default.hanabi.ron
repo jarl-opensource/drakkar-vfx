@@ -1,0 +1,265 @@
+(
+    name: "Untitled",
+    capacity: 1024,
+    spawner: (
+        num_particles: Single(12.0),
+        spawn_time: Single(1.0),
+        period: Single(1.0),
+        starts_active: true,
+        starts_immediately: true,
+    ),
+    z_layer_2d: 1.0,
+    simulation_space: Local,
+    simulation_condition: WhenVisible,
+    init_modifiers: [
+        {
+            "SetPositionCircleModifier": (
+                center: (
+                    index: 9,
+                ),
+                axis: (
+                    index: 10,
+                ),
+                radius: (
+                    index: 11,
+                ),
+                dimension: Volume,
+            ),
+        },
+        {
+            "SetVelocitySphereModifier": (
+                center: (
+                    index: 12,
+                ),
+                speed: (
+                    index: 17,
+                ),
+            ),
+        },
+        {
+            "SetAttributeModifier": (
+                attribute: "age",
+                value: (
+                    index: 3,
+                ),
+            ),
+        },
+        {
+            "SetAttributeModifier": (
+                attribute: "lifetime",
+                value: (
+                    index: 8,
+                ),
+            ),
+        },
+    ],
+    update_modifiers: [
+        {
+            "LinearDragModifier": (
+                drag: (
+                    index: 18,
+                ),
+            ),
+        },
+        {
+            "AccelModifier": (
+                accel: (
+                    index: 19,
+                ),
+            ),
+        },
+    ],
+    render_modifiers: [
+        {
+            "SizeOverLifetimeModifier": (
+                gradient: (
+                    keys: [
+                        (
+                            ratio: 0.0,
+                            value: (1.0, 1.0),
+                        ),
+                        (
+                            ratio: 0.1,
+                            value: (0.8, 0.8),
+                        ),
+                        (
+                            ratio: 0.15,
+                            value: (0.8, 0.8),
+                        ),
+                        (
+                            ratio: 0.3,
+                            value: (0.8, 0.8),
+                        ),
+                        (
+                            ratio: 0.35,
+                            value: (1.2, 1.2),
+                        ),
+                        (
+                            ratio: 0.375,
+                            value: (3.5, 3.5),
+                        ),
+                        (
+                            ratio: 1.0,
+                            value: (4.0, 4.0),
+                        ),
+                    ],
+                ),
+                screen_space_size: false,
+            ),
+        },
+        {
+            "ColorOverLifetimeModifier": (
+                gradient: (
+                    keys: [
+                        (
+                            ratio: 0.0,
+                            value: (10.0, 10.0, 0.0, 1.0),
+                        ),
+                        (
+                            ratio: 0.1,
+                            value: (10.0, 0.0, 0.0, 1.0),
+                        ),
+                        (
+                            ratio: 0.15,
+                            value: (10.0, 0.0, 0.0, 1.0),
+                        ),
+                        (
+                            ratio: 0.2,
+                            value: (10.0, 0.0, 0.0, 0.8),
+                        ),
+                        (
+                            ratio: 0.35,
+                            value: (0.1, 0.1, 0.1, 0.3),
+                        ),
+                        (
+                            ratio: 0.6,
+                            value: (0.0, 0.0, 0.0, 0.0),
+                        ),
+                        (
+                            ratio: 1.0,
+                            value: (0.0, 0.0, 0.0, 0.0),
+                        ),
+                    ],
+                ),
+            ),
+        },
+    ],
+    properties: [],
+    motion_integration: PostUpdate,
+    module: (
+        expressions: [
+            BuiltIn((
+                operator: Rand(Scalar(Float)),
+            )),
+            Literal((
+                value: Scalar(Float(1.5)),
+            )),
+            Binary(
+                op: Mul,
+                left: (
+                    index: 1,
+                ),
+                right: (
+                    index: 2,
+                ),
+            ),
+            BuiltIn((
+                operator: Rand(Scalar(Float)),
+            )),
+            Literal((
+                value: Scalar(Float(0.7)),
+            )),
+            Binary(
+                op: Mul,
+                left: (
+                    index: 4,
+                ),
+                right: (
+                    index: 5,
+                ),
+            ),
+            Literal((
+                value: Scalar(Float(3.0)),
+            )),
+            Binary(
+                op: Add,
+                left: (
+                    index: 6,
+                ),
+                right: (
+                    index: 7,
+                ),
+            ),
+            Literal((
+                value: Vector((
+                    vector_type: (
+                        elem_type: Float,
+                        count: 3,
+                    ),
+                    storage: (0, 0, 0, 0),
+                )),
+            )),
+            Literal((
+                value: Vector((
+                    vector_type: (
+                        elem_type: Float,
+                        count: 3,
+                    ),
+                    storage: (0, 0, 1065353216, 0),
+                )),
+            )),
+            Literal((
+                value: Scalar(Float(3.5)),
+            )),
+            Literal((
+                value: Vector((
+                    vector_type: (
+                        elem_type: Float,
+                        count: 3,
+                    ),
+                    storage: (0, 0, 0, 0),
+                )),
+            )),
+            BuiltIn((
+                operator: Rand(Scalar(Float)),
+            )),
+            Literal((
+                value: Scalar(Float(4.0)),
+            )),
+            Binary(
+                op: Mul,
+                left: (
+                    index: 13,
+                ),
+                right: (
+                    index: 14,
+                ),
+            ),
+            Literal((
+                value: Scalar(Float(5.0)),
+            )),
+            Binary(
+                op: Add,
+                left: (
+                    index: 15,
+                ),
+                right: (
+                    index: 16,
+                ),
+            ),
+            Literal((
+                value: Scalar(Float(3.0)),
+            )),
+            Literal((
+                value: Vector((
+                    vector_type: (
+                        elem_type: Float,
+                        count: 3,
+                    ),
+                    storage: (0, 1123024896, 0, 0),
+                )),
+            )),
+        ],
+    ),
+    alpha_mode: Blend,
+)
