@@ -20,7 +20,7 @@ Simple VFX editor for [Bevy](https://bevyengine.org/) and [Hanabi](https://githu
 
 Drakkar VFX is a simple VFX editor for [Bevy](https://bevyengine.org/) and [Hanabi](https://github.com/djeedai/bevy_hanabi).
 
-Work-in-progress — not production-ready yet. The current scope is 2D particle effects, but we're happy to review pull requests that add 3D support, upgrade the codebase to the latest Bevy and Hanabi releases, fix bugs and improve the editor UI and features.
+This project is a work-in-progress and not yet production-ready. It currently focuses on 2-D particle effects. We welcome pull requests that add 3-D support, update the codebase to the latest Bevy and Hanabi releases, fix bugs, or enhance the editor’s UI and features.
 
 Thanks for helping the project grow!
 
