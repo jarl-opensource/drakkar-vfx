@@ -16,6 +16,29 @@ Simple VFX editor for [Bevy](https://bevyengine.org/) and [Hanabi](https://githu
     </a>
 </div>
 
+## About
+
+Drakkar VFX is a simple VFX editor for [Bevy](https://bevyengine.org/) and [Hanabi](https://github.com/djeedai/bevy_hanabi).
+
+Work-in-progress — not production-ready yet. The current scope is 2D particle effects, but we're happy to review pull requests that add 3D support, upgrade the codebase to the latest Bevy and Hanabi releases, fix bugs and improve the editor UI and features.
+
+Thanks for helping the project grow!
+
+### Features
+
+- 2D viewer
+- General asset properties (file, name, capacity, etc)
+- Spawner properties
+- Render modifiers (color, size, force field, etc)
+- Init modifiers (position, velocity, attribute, etc)
+- Update modifiers (position, velocity, etc)
+- Properties editor
+- Expression editor
+- Git integration
+- Basic gizmos (grid, axes, force fields, etc.)
+- Serialization to/from Hanabi RON files
+- Command Server to control the viewer from the editor.
+
 ## Crate Layout
 
 A single-crate Rust project that bundles two executables:
@@ -51,7 +74,13 @@ cargo run --release \
 
 ## Demo
 
-![Drakkar VFX Demo](assets/drakkar-vfx-demo.gif)
+<div align="center">
+    <a href="https://www.youtube.com/watch?v=esLGI0UAczU">
+        <img src="assets/demo.gif" alt="Drakkar VFX Demo" width="400">
+    </a>
+</div>
+
+Watch the demo on YouTube: [Drakkar VFX Demo](https://www.youtube.com/watch?v=esLGI0UAczU)
 
 ## License
 
