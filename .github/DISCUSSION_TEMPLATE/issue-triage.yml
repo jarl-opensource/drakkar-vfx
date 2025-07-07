@@ -1,76 +1,86 @@
+name: Bug report for Drakkar
+description: File a detailed bug report so we can reproduce and fix the issue
+title: "[Bug] "
 labels: ["needs-confirmation"]
+
 body:
   - type: markdown
     attributes:
       value: "# Issue Details"
+
   - type: textarea
     attributes:
       label: Issue Description
       description: |
-        Provide a detailed description of the issue.  Include relevant information, such as:
-        - Screenshots, screen recordings, hanabi assets or other supporting media (as needed).
-        - If this is a regression of an existing issue that was closed or resolved, please include the previous item reference (Discussion, Issue, PR, commit) in your description.
+        Provide a detailed description of the issue. Include relevant information, such as:
+        - Screenshots, screen recordings, Hanabi assets, or other supporting media.
+        - If this is a regression, link the previous discussion/issue/PR/commit.
     validations:
       required: true
+
   - type: textarea
     attributes:
       label: Expected Behavior
-      description: |
-        Describe how you expect Drakkar to behave in this situation. Include any relevant documentation links.
+      description: Describe the behavior you **expected** Drakkar to have.
     validations:
       required: true
+
   - type: textarea
     attributes:
       label: Actual Behavior
-      description: |
-        Describe how Drakkar actually behaves in this situation.  If it is not immediately obvious how the actual behavior differs from the expected behavior described above, please be sure to mention the deviation specifically.
+      description: Describe the behavior Drakkar **actually** shows and how it differs.
     validations:
       required: true
+
   - type: textarea
     attributes:
       label: Reproduction Steps
-      description: |
-        Provide a detailed set of step-by-step instructions for reproducing this issue.
+      description: Provide precise steps so we can reproduce the bug.
       placeholder: |
-        1. Open Drakkar.
-        2. Select asset file.
-        3. ...
+        1. Open Drakkar
+        2. Select asset file
+        3. …
     validations:
       required: true
+
   - type: textarea
     attributes:
       label: Drakkar Logs
       description: |
-        Provide any captured Drakkar logs or stacktraces during your issue reproduction in this field. To enable logs run Drakkar with `RUST_LOG=debug`.
+        Paste logs or stack traces captured while reproducing the issue.
+        (Run Drakkar with `RUST_LOG=debug` to enable debug logs.)
       render: text
+
   - type: textarea
     attributes:
       label: Drakkar Version
-      description: Paste the output of `drakkar-vfx --version` here.
+      description: Paste the output of `drakkar-vfx --version`.
       placeholder: |
         Drakkar VFX 0.1.0-dev
         Build Information:
-          Git SHA: 86b6155979ba5589381f0a12cac01606add5c42a
-          Git Commit Date: 2025-07-07T21:00:58.000000000Z
+          Git SHA: 86b61559…
+          Git Commit Date: 2025-07-07T21:00:58Z
           Rust Version: 1.89.0-nightly
           Target: aarch64-apple-darwin
-          Build Date: 2025-07-07T21:28:02.175108000Z
+          Build Date: 2025-07-07T21:28:02Z
       render: text
     validations:
       required: true
+
   - type: input
     attributes:
       label: OS Version Information
-      description: |
-        Please tell us what operating system (name and version) you are using.
-      placeholder: Ubuntu 24.04.1 (Noble Numbat)
+      description: Tell us the OS name and version you’re using.
+      placeholder: Ubuntu 24.04 (Noble Numbat)
     validations:
       required: true
+
   - type: dropdown
     attributes:
       label: (Linux only) Display Server
       description: |
-        If you run Linux, please tell us if you use X11 or Wayland. If you aren't sure, you can determine this by running `[ -z "$WAYLAND_DISPLAY" ] && echo X11 || echo Wayland`.
+        If you run Linux, choose your display server.
+        Unsure? Run `[ -z "$WAYLAND_DISPLAY" ] && echo X11 || echo Wayland`.
       options:
         - X11
         - Wayland
