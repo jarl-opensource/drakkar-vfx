@@ -1,0 +1,10 @@
+imports_granularity = "Module"
+reorder_imports = true
+group_imports = "StdExternalCrate"
+brace_style = "AlwaysNextLine"
+control_brace_style = "AlwaysSameLine"
+newline_style = "Unix"
+unstable_features = true
+imports_layout = "HorizontalVertical"
+struct_field_align_threshold = 64
+enum_discrim_align_threshold = 64
