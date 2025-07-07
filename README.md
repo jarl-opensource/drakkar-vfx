@@ -24,3 +24,35 @@ A single-crate Rust project that bundles two executables:
 |----------|-----------------------------|
 | `gui`    | Stand-alone editor powered by **gpui** |
 | `viewer` | Real-time preview built on **Bevy**    |
+
+## Building
+
+Build both editor and viewer binaries:
+```bash
+cargo build --all --release
+```
+
+## Running
+
+Run the editor:
+```bash
+cargo run --release \
+    --bin drakkar-vfx -- \
+    --assets-root ./vfx
+```
+
+## Bevy and Hanabi compatibility
+
+| Drakkar | Bevy | Hanabi |
+|---------|------|--------|
+| 0.1     | 0.11 | 0.7*   |
+
+*Note: Drakkar VFX requires Hanabi from commit with public [APIs](https://github.com/jarl-opensource/bevy_hanabi/commit/bf36760d2f259699103ba5fd49f937ed66eec026).
+
+## Demo
+
+![Drakkar VFX Demo](assets/drakkar-vfx-demo.gif)
+
+## License
+
+See [LICENSE](LICENSE) for details.
