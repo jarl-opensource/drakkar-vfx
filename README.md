@@ -7,7 +7,7 @@ Simple VFX editor for [Bevy](https://bevyengine.org/) and [Hanabi](https://githu
 ---
 
 <div align="center">
-<img src="assets/drakkar.jpg" alt="Drakkar VFX Logo" width="1024">
+<img src="assets/drakkar.jpg" alt="Drakkar VFX Logo" width="400">
 </div>
 
 <div align="center">
@@ -76,7 +76,7 @@ cargo run --release \
 
 <div align="center">
     <a href="https://www.youtube.com/watch?v=esLGI0UAczU">
-        <img src="assets/demo.gif" alt="Drakkar VFX Demo" width="400">
+        <img src="assets/demo.gif" alt="Drakkar VFX Demo" width="1024">
     </a>
 </div>
 
