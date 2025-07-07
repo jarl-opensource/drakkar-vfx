@@ -1,6 +1,9 @@
 # Drakkar VFX
 
-## Demo
+> 🚧 Beware! This repo is in active development and a lot of things may change.
+
+Simple VFX editor for [Bevy](https://bevyengine.org/) and [Hanabi](https://github.com/djeedai/bevy_hanabi).
+
 
 <div align="center">
     <a href="https://www.youtube.com/watch?v=esLGI0UAczU">
@@ -9,11 +12,6 @@
 </div>
 
 Watch the demo on YouTube: [Drakkar VFX Demo](https://www.youtube.com/watch?v=esLGI0UAczU)
-
-
-> 🚧 Beware! This repo is in active development and a lot of things may change.
-
-Simple VFX editor for [Bevy](https://bevyengine.org/) and [Hanabi](https://github.com/djeedai/bevy_hanabi).
 
 ---
 
