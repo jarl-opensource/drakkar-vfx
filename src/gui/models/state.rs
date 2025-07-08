@@ -1,7 +1,9 @@
 use bevy::math::Vec2;
-#[cfg(not(feature = "jarl"))]
+
+// ====================
+// Particles.
+// ====================
 use bevy_hanabi::graph::{ScalarValue, Value};
-#[cfg(not(feature = "jarl"))]
 use bevy_hanabi::{
     AccelModifier,
     Attribute,
@@ -26,36 +28,7 @@ use bevy_hanabi::{
     TangentAccelModifier,
     *,
 };
-#[cfg(feature = "jarl")]
-use graph::{ScalarValue, Value};
-// ====================
-// Particles.
-// ====================
-#[cfg(feature = "jarl")]
-use jarl_particles::{
-    AccelModifier,
-    Attribute,
-    BoxedModifier,
-    ColorOverLifetimeModifier,
-    EffectAsset,
-    Expr,
-    LinearDragModifier,
-    Property,
-    RadialAccelModifier,
-    SetAttributeModifier,
-    SetPositionCircleModifier,
-    SetPositionCone3dModifier,
-    SetPositionSphereModifier,
-    SetVelocityCircleModifier,
-    SetVelocitySphereModifier,
-    SetVelocityTangentModifier,
-    ShapeDimension,
-    SimulationCondition,
-    SimulationSpace,
-    SizeOverLifetimeModifier,
-    TangentAccelModifier,
-    *,
-};
+
 
 // ====================
 // Editor.
@@ -1042,13 +1015,6 @@ impl FromHanabi
             BuiltInOperator::Time => Ok(XBuiltInOp::Time),
             BuiltInOperator::DeltaTime => Ok(XBuiltInOp::DeltaTime),
             BuiltInOperator::Rand(_) => Ok(XBuiltInOp::Rand),
-            #[cfg(feature = "jarl")]
-            _ => {
-                return Err(XError::UnknownBuiltInOperator(format!(
-                    "Unsupported built-in operator: {:?}",
-                    op
-                )));
-            }
         }
     }
 
