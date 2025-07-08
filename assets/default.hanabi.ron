@@ -9,7 +9,7 @@
         starts_immediately: true,
     ),
     z_layer_2d: 1.0,
-    simulation_space: Local,
+    simulation_space: Global,
     simulation_condition: WhenVisible,
     init_modifiers: [
         {
