@@ -1,5 +1,4 @@
 use bevy::math::Vec2;
-
 // ====================
 // Particles.
 // ====================
@@ -28,7 +27,6 @@ use bevy_hanabi::{
     TangentAccelModifier,
     *,
 };
-
 
 // ====================
 // Editor.
