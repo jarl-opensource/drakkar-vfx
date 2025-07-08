@@ -12,11 +12,11 @@
 - models/**/*.rs – basic flat rust structures representing objects that editor will be manipulating.
 - expr/**/*.rs – expression parser and other utilities. Mostly mimics Bevy Hanabi expression structure.
 - primitives/**/*.rs – basic raw input components for things like text input, numbers inputs, slider, color picker etc.
-- facets/**/*.rs – higher-level editor components combining multiple primitives for editing rust types or editor model types.
+- inspectors/**/*.rs – higher-level editor components combining multiple primitives for editing rust types or editor model types.
 - asset_editor/**/*.rs – asset editor panel.
 - file_browser/**/*.rs – file browser panel.
 - utils/**/*.rs – various utils for scm, text, fs etc.
-- blocks.rs – blocks combining facets and labels into even higher level primitives.
+- blocks.rs – blocks combining inspectors and labels into even higher level primitives.
 - section.rs – expandable section with multiple blocks.
 - client.rs – socket clicket for communicating with viewer app.
 - server_wrapper.rs – wrapper for controlling server (viewer) app process.

@@ -2,13 +2,10 @@ use std::fs;
 use std::path::PathBuf;
 use std::time::SystemTime;
 
-#[cfg(not(feature = "jarl"))]
 use bevy_hanabi::EffectAsset;
-#[cfg(feature = "jarl")]
-use jarl_particles::EffectAsset;
 
 use crate::gui::file_browser::item::*;
-use crate::gui::utils::scm::Scm;
+use crate::gui::scm::Scm;
 
 pub struct FsUtil;
 

@@ -26,7 +26,7 @@ pub enum ServerResponse
     Exited(i32),
 }
 
-pub struct ServerWrapper
+pub struct ViewerServerAdapter
 {
     process:         Option<Child>,
     input_sender:    Option<Sender<ServerMessage>>,
@@ -34,7 +34,7 @@ pub struct ServerWrapper
     _handles:        Vec<thread::JoinHandle<()>>,
 }
 
-impl ServerWrapper
+impl ViewerServerAdapter
 {
     pub fn new() -> Self
     {
@@ -263,7 +263,7 @@ impl ServerWrapper
     }
 }
 
-impl Drop for ServerWrapper
+impl Drop for ViewerServerAdapter
 {
     fn drop(&mut self)
     {

@@ -4,17 +4,17 @@ use gpui::{Context, Entity, Window};
 // ====================
 // Editor.
 // ====================
-use crate::gui::facets::{Facet, FacetEvent};
+use crate::gui::inspectors::{Inspector, InspectorEvent};
 use crate::gui::primitives::checkbox_input::{Checkbox, SizeVariant};
 use crate::gui::primitives::events::CheckboxEvent;
 
-pub struct BoolFacet
+pub struct BoolInspector
 {
     checkbox:       Entity<Checkbox>,
     _subscriptions: Vec<gpui::Subscription>,
 }
 
-impl Facet for BoolFacet
+impl Inspector for BoolInspector
 {
     type Value = bool;
 
@@ -30,7 +30,7 @@ impl Facet for BoolFacet
             &checkbox,
             |_this, _checkbox, event: &CheckboxEvent, cx| match event {
                 CheckboxEvent::Changed(value) => {
-                    cx.emit(FacetEvent::Updated { v: *value });
+                    cx.emit(InspectorEvent::Updated { v: *value });
                 }
             },
         );
@@ -47,7 +47,7 @@ impl Facet for BoolFacet
     }
 }
 
-impl Render for BoolFacet
+impl Render for BoolInspector
 {
     fn render(&mut self, _window: &mut Window, _cx: &mut Context<Self>) -> impl IntoElement
     {

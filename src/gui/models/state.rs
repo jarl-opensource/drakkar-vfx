@@ -61,7 +61,7 @@ use jarl_particles::{
 // Editor.
 // ====================
 use crate::gui::expr::{XBinaryOp, XBuiltInOp, XExpr, XUnaryOp, XValue};
-use crate::gui::facets::spawner::SpawnerData;
+use crate::gui::inspectors::spawner::SpawnerData;
 use crate::gui::models::XDimension;
 use crate::gui::models::attr::XAttr;
 use crate::gui::models::color::HdrColor;

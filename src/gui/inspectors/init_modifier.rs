@@ -2,9 +2,9 @@ use gpui::prelude::*;
 use gpui::{AnyView, Context, Entity, Window, div};
 use strum::IntoEnumIterator;
 
-use crate::gui::facets::enumeration::EnumFacet;
-use crate::gui::facets::expr::ExprFacet;
-use crate::gui::facets::{Facet, FacetEvent};
+use crate::gui::inspectors::enumeration::EnumInspector;
+use crate::gui::inspectors::expr::ExprInspector;
+use crate::gui::inspectors::{Inspector, InspectorEvent};
 use crate::gui::models::XDimension;
 use crate::gui::models::attr::XAttr;
 use crate::gui::models::modifier::{
@@ -23,29 +23,29 @@ use crate::gui::styling::colors::*;
 use crate::gui::styling::fonts::*;
 use crate::gui::styling::icons::ProductIcon;
 
-pub struct InitModifierFacet
+pub struct InitModifierInspector
 {
     type_dropdown:    Entity<Dropdown>,
     current_modifier: XInitModifier,
 
     // Expression properties for all possible fields
-    center_expr:      Entity<ExprFacet>,
-    axis_expr:        Entity<ExprFacet>,
-    radius_expr:      Entity<ExprFacet>,
-    speed_expr:       Entity<ExprFacet>,
-    value_expr:       Entity<ExprFacet>,
-    height_expr:      Entity<ExprFacet>,
-    base_radius_expr: Entity<ExprFacet>,
-    top_radius_expr:  Entity<ExprFacet>,
+    center_expr:      Entity<ExprInspector>,
+    axis_expr:        Entity<ExprInspector>,
+    radius_expr:      Entity<ExprInspector>,
+    speed_expr:       Entity<ExprInspector>,
+    value_expr:       Entity<ExprInspector>,
+    height_expr:      Entity<ExprInspector>,
+    base_radius_expr: Entity<ExprInspector>,
+    top_radius_expr:  Entity<ExprInspector>,
 
     // Enum properties
-    dimension_enum:     Entity<EnumFacet<XDimension>>,
+    dimension_enum:     Entity<EnumInspector<XDimension>>,
     attribute_dropdown: Entity<Dropdown>,
 
     _subscriptions: Vec<gpui::Subscription>,
 }
 
-impl Facet for InitModifierFacet
+impl Inspector for InitModifierInspector
 {
     type Value = XInitModifier;
 
@@ -83,16 +83,16 @@ impl Facet for InitModifierFacet
             attribute_init,
         ) = Self::extract_initial_values(&initial);
 
-        let center_expr = cx.new(|cx| ExprFacet::new(cx, center_init));
-        let axis_expr = cx.new(|cx| ExprFacet::new(cx, axis_init));
-        let radius_expr = cx.new(|cx| ExprFacet::new(cx, radius_init));
-        let speed_expr = cx.new(|cx| ExprFacet::new(cx, speed_init));
-        let value_expr = cx.new(|cx| ExprFacet::new(cx, value_init));
-        let height_expr = cx.new(|cx| ExprFacet::new(cx, height_init));
-        let base_radius_expr = cx.new(|cx| ExprFacet::new(cx, base_radius_init));
-        let top_radius_expr = cx.new(|cx| ExprFacet::new(cx, top_radius_init));
+        let center_expr = cx.new(|cx| ExprInspector::new(cx, center_init));
+        let axis_expr = cx.new(|cx| ExprInspector::new(cx, axis_init));
+        let radius_expr = cx.new(|cx| ExprInspector::new(cx, radius_init));
+        let speed_expr = cx.new(|cx| ExprInspector::new(cx, speed_init));
+        let value_expr = cx.new(|cx| ExprInspector::new(cx, value_init));
+        let height_expr = cx.new(|cx| ExprInspector::new(cx, height_init));
+        let base_radius_expr = cx.new(|cx| ExprInspector::new(cx, base_radius_init));
+        let top_radius_expr = cx.new(|cx| ExprInspector::new(cx, top_radius_init));
 
-        let dimension_enum = cx.new(|cx| EnumFacet::new(cx, dimension_init));
+        let dimension_enum = cx.new(|cx| EnumInspector::new(cx, dimension_init));
 
         // Create custom attribute dropdown with icons and type information
         let attribute_dropdown = cx.new(|cx| {
@@ -121,7 +121,7 @@ impl Facet for InitModifierFacet
             |this, _dropdown, event: &DropdownEvent, cx| {
                 let DropdownEvent::SelectionChanged(index) = event;
                 this.on_type_changed(*index, cx);
-                cx.emit(FacetEvent::Updated {
+                cx.emit(InspectorEvent::Updated {
                     v: this.get_value(cx),
                 });
             },
@@ -132,64 +132,64 @@ impl Facet for InitModifierFacet
         // Subscribe to all expression field changes
         subscriptions.push(cx.subscribe(
             &center_expr,
-            |this, _entity, _event: &FacetEvent<Option<crate::gui::expr::XExpr>>, cx| {
-                cx.emit(FacetEvent::Updated {
+            |this, _entity, _event: &InspectorEvent<Option<crate::gui::expr::XExpr>>, cx| {
+                cx.emit(InspectorEvent::Updated {
                     v: this.get_value(cx),
                 });
             },
         ));
         subscriptions.push(cx.subscribe(
             &axis_expr,
-            |this, _entity, _event: &FacetEvent<Option<crate::gui::expr::XExpr>>, cx| {
-                cx.emit(FacetEvent::Updated {
+            |this, _entity, _event: &InspectorEvent<Option<crate::gui::expr::XExpr>>, cx| {
+                cx.emit(InspectorEvent::Updated {
                     v: this.get_value(cx),
                 });
             },
         ));
         subscriptions.push(cx.subscribe(
             &radius_expr,
-            |this, _entity, _event: &FacetEvent<Option<crate::gui::expr::XExpr>>, cx| {
-                cx.emit(FacetEvent::Updated {
+            |this, _entity, _event: &InspectorEvent<Option<crate::gui::expr::XExpr>>, cx| {
+                cx.emit(InspectorEvent::Updated {
                     v: this.get_value(cx),
                 });
             },
         ));
         subscriptions.push(cx.subscribe(
             &speed_expr,
-            |this, _entity, _event: &FacetEvent<Option<crate::gui::expr::XExpr>>, cx| {
-                cx.emit(FacetEvent::Updated {
+            |this, _entity, _event: &InspectorEvent<Option<crate::gui::expr::XExpr>>, cx| {
+                cx.emit(InspectorEvent::Updated {
                     v: this.get_value(cx),
                 });
             },
         ));
         subscriptions.push(cx.subscribe(
             &value_expr,
-            |this, _entity, _event: &FacetEvent<Option<crate::gui::expr::XExpr>>, cx| {
-                cx.emit(FacetEvent::Updated {
+            |this, _entity, _event: &InspectorEvent<Option<crate::gui::expr::XExpr>>, cx| {
+                cx.emit(InspectorEvent::Updated {
                     v: this.get_value(cx),
                 });
             },
         ));
         subscriptions.push(cx.subscribe(
             &height_expr,
-            |this, _entity, _event: &FacetEvent<Option<crate::gui::expr::XExpr>>, cx| {
-                cx.emit(FacetEvent::Updated {
+            |this, _entity, _event: &InspectorEvent<Option<crate::gui::expr::XExpr>>, cx| {
+                cx.emit(InspectorEvent::Updated {
                     v: this.get_value(cx),
                 });
             },
         ));
         subscriptions.push(cx.subscribe(
             &base_radius_expr,
-            |this, _entity, _event: &FacetEvent<Option<crate::gui::expr::XExpr>>, cx| {
-                cx.emit(FacetEvent::Updated {
+            |this, _entity, _event: &InspectorEvent<Option<crate::gui::expr::XExpr>>, cx| {
+                cx.emit(InspectorEvent::Updated {
                     v: this.get_value(cx),
                 });
             },
         ));
         subscriptions.push(cx.subscribe(
             &top_radius_expr,
-            |this, _entity, _event: &FacetEvent<Option<crate::gui::expr::XExpr>>, cx| {
-                cx.emit(FacetEvent::Updated {
+            |this, _entity, _event: &InspectorEvent<Option<crate::gui::expr::XExpr>>, cx| {
+                cx.emit(InspectorEvent::Updated {
                     v: this.get_value(cx),
                 });
             },
@@ -198,8 +198,8 @@ impl Facet for InitModifierFacet
         // Subscribe to enum field changes
         subscriptions.push(cx.subscribe(
             &dimension_enum,
-            |this, _entity, _event: &FacetEvent<XDimension>, cx| {
-                cx.emit(FacetEvent::Updated {
+            |this, _entity, _event: &InspectorEvent<XDimension>, cx| {
+                cx.emit(InspectorEvent::Updated {
                     v: this.get_value(cx),
                 });
             },
@@ -209,7 +209,7 @@ impl Facet for InitModifierFacet
         subscriptions.push(cx.subscribe(
             &attribute_dropdown,
             |this, _dropdown, _event: &DropdownEvent, cx| {
-                cx.emit(FacetEvent::Updated {
+                cx.emit(InspectorEvent::Updated {
                     v: this.get_value(cx),
                 });
             },
@@ -362,7 +362,7 @@ impl Facet for InitModifierFacet
     }
 }
 
-impl InitModifierFacet
+impl InitModifierInspector
 {
     fn on_type_changed(&mut self, type_index: usize, cx: &mut Context<Self>)
     {
@@ -383,17 +383,17 @@ impl InitModifierFacet
             attribute_init,
         ) = Self::extract_initial_values(&new_modifier);
 
-        // Recreate the facet instances with new values
-        self.center_expr = cx.new(|cx| ExprFacet::new(cx, center_init));
-        self.axis_expr = cx.new(|cx| ExprFacet::new(cx, axis_init));
-        self.radius_expr = cx.new(|cx| ExprFacet::new(cx, radius_init));
-        self.speed_expr = cx.new(|cx| ExprFacet::new(cx, speed_init));
-        self.value_expr = cx.new(|cx| ExprFacet::new(cx, value_init));
-        self.height_expr = cx.new(|cx| ExprFacet::new(cx, height_init));
-        self.base_radius_expr = cx.new(|cx| ExprFacet::new(cx, base_radius_init));
-        self.top_radius_expr = cx.new(|cx| ExprFacet::new(cx, top_radius_init));
+        // Recreate the inspector instances with new values
+        self.center_expr = cx.new(|cx| ExprInspector::new(cx, center_init));
+        self.axis_expr = cx.new(|cx| ExprInspector::new(cx, axis_init));
+        self.radius_expr = cx.new(|cx| ExprInspector::new(cx, radius_init));
+        self.speed_expr = cx.new(|cx| ExprInspector::new(cx, speed_init));
+        self.value_expr = cx.new(|cx| ExprInspector::new(cx, value_init));
+        self.height_expr = cx.new(|cx| ExprInspector::new(cx, height_init));
+        self.base_radius_expr = cx.new(|cx| ExprInspector::new(cx, base_radius_init));
+        self.top_radius_expr = cx.new(|cx| ExprInspector::new(cx, top_radius_init));
 
-        self.dimension_enum = cx.new(|cx| EnumFacet::new(cx, dimension_init));
+        self.dimension_enum = cx.new(|cx| EnumInspector::new(cx, dimension_init));
 
         // Recreate attribute dropdown with icons and type information
         self.attribute_dropdown = cx.new(|cx| {
@@ -426,7 +426,7 @@ impl InitModifierFacet
             |this, _dropdown, event: &DropdownEvent, cx| {
                 let DropdownEvent::SelectionChanged(index) = event;
                 this.on_type_changed(*index, cx);
-                cx.emit(FacetEvent::Updated {
+                cx.emit(InspectorEvent::Updated {
                     v: this.get_value(cx),
                 });
             },
@@ -435,64 +435,64 @@ impl InitModifierFacet
         // Re-subscribe to all expression field changes
         self._subscriptions.push(cx.subscribe(
             &self.center_expr,
-            |this, _entity, _event: &FacetEvent<Option<crate::gui::expr::XExpr>>, cx| {
-                cx.emit(FacetEvent::Updated {
+            |this, _entity, _event: &InspectorEvent<Option<crate::gui::expr::XExpr>>, cx| {
+                cx.emit(InspectorEvent::Updated {
                     v: this.get_value(cx),
                 });
             },
         ));
         self._subscriptions.push(cx.subscribe(
             &self.axis_expr,
-            |this, _entity, _event: &FacetEvent<Option<crate::gui::expr::XExpr>>, cx| {
-                cx.emit(FacetEvent::Updated {
+            |this, _entity, _event: &InspectorEvent<Option<crate::gui::expr::XExpr>>, cx| {
+                cx.emit(InspectorEvent::Updated {
                     v: this.get_value(cx),
                 });
             },
         ));
         self._subscriptions.push(cx.subscribe(
             &self.radius_expr,
-            |this, _entity, _event: &FacetEvent<Option<crate::gui::expr::XExpr>>, cx| {
-                cx.emit(FacetEvent::Updated {
+            |this, _entity, _event: &InspectorEvent<Option<crate::gui::expr::XExpr>>, cx| {
+                cx.emit(InspectorEvent::Updated {
                     v: this.get_value(cx),
                 });
             },
         ));
         self._subscriptions.push(cx.subscribe(
             &self.speed_expr,
-            |this, _entity, _event: &FacetEvent<Option<crate::gui::expr::XExpr>>, cx| {
-                cx.emit(FacetEvent::Updated {
+            |this, _entity, _event: &InspectorEvent<Option<crate::gui::expr::XExpr>>, cx| {
+                cx.emit(InspectorEvent::Updated {
                     v: this.get_value(cx),
                 });
             },
         ));
         self._subscriptions.push(cx.subscribe(
             &self.value_expr,
-            |this, _entity, _event: &FacetEvent<Option<crate::gui::expr::XExpr>>, cx| {
-                cx.emit(FacetEvent::Updated {
+            |this, _entity, _event: &InspectorEvent<Option<crate::gui::expr::XExpr>>, cx| {
+                cx.emit(InspectorEvent::Updated {
                     v: this.get_value(cx),
                 });
             },
         ));
         self._subscriptions.push(cx.subscribe(
             &self.height_expr,
-            |this, _entity, _event: &FacetEvent<Option<crate::gui::expr::XExpr>>, cx| {
-                cx.emit(FacetEvent::Updated {
+            |this, _entity, _event: &InspectorEvent<Option<crate::gui::expr::XExpr>>, cx| {
+                cx.emit(InspectorEvent::Updated {
                     v: this.get_value(cx),
                 });
             },
         ));
         self._subscriptions.push(cx.subscribe(
             &self.base_radius_expr,
-            |this, _entity, _event: &FacetEvent<Option<crate::gui::expr::XExpr>>, cx| {
-                cx.emit(FacetEvent::Updated {
+            |this, _entity, _event: &InspectorEvent<Option<crate::gui::expr::XExpr>>, cx| {
+                cx.emit(InspectorEvent::Updated {
                     v: this.get_value(cx),
                 });
             },
         ));
         self._subscriptions.push(cx.subscribe(
             &self.top_radius_expr,
-            |this, _entity, _event: &FacetEvent<Option<crate::gui::expr::XExpr>>, cx| {
-                cx.emit(FacetEvent::Updated {
+            |this, _entity, _event: &InspectorEvent<Option<crate::gui::expr::XExpr>>, cx| {
+                cx.emit(InspectorEvent::Updated {
                     v: this.get_value(cx),
                 });
             },
@@ -501,8 +501,8 @@ impl InitModifierFacet
         // Re-subscribe to enum field changes
         self._subscriptions.push(cx.subscribe(
             &self.dimension_enum,
-            |this, _entity, _event: &FacetEvent<XDimension>, cx| {
-                cx.emit(FacetEvent::Updated {
+            |this, _entity, _event: &InspectorEvent<XDimension>, cx| {
+                cx.emit(InspectorEvent::Updated {
                     v: this.get_value(cx),
                 });
             },
@@ -512,7 +512,7 @@ impl InitModifierFacet
         self._subscriptions.push(cx.subscribe(
             &self.attribute_dropdown,
             |this, _dropdown, _event: &DropdownEvent, cx| {
-                cx.emit(FacetEvent::Updated {
+                cx.emit(InspectorEvent::Updated {
                     v: this.get_value(cx),
                 });
             },
@@ -643,7 +643,7 @@ impl InitModifierFacet
     }
 }
 
-impl Render for InitModifierFacet
+impl Render for InitModifierInspector
 {
     fn render(&mut self, _window: &mut Window, _cx: &mut Context<Self>) -> impl IntoElement
     {

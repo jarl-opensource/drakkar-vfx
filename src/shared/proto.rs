@@ -1,7 +1,4 @@
-#[cfg(not(feature = "jarl"))]
 use bevy_hanabi::EffectAsset;
-#[cfg(feature = "jarl")]
-use jarl_particles::EffectAsset;
 use serde::{Deserialize, Serialize};
 
 /// Messages that can be sent from external processes to the server

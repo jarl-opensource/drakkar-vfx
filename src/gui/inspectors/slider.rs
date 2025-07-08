@@ -4,19 +4,19 @@ use gpui::{Context, Entity, Window, div};
 // ====================
 // Editor.
 // ====================
-use crate::gui::facets::{Facet, FacetEvent};
+use crate::gui::inspectors::{Inspector, InspectorEvent};
 use crate::gui::primitives::events::SliderEvent;
 use crate::gui::primitives::increment_buttons::{IncrementButtons, IncrementEvent};
 use crate::gui::primitives::slider::{SizeVariant, Slider};
 
-pub struct SliderFacet
+pub struct SliderInspector
 {
     slider:            Entity<Slider>,
     increment_buttons: Entity<IncrementButtons>,
     _subscriptions:    Vec<gpui::Subscription>,
 }
 
-impl Facet for SliderFacet
+impl Inspector for SliderInspector
 {
     type Value = f32;
 
@@ -36,7 +36,7 @@ impl Facet for SliderFacet
             &slider,
             |_this, _slider, event: &SliderEvent, cx| match event {
                 SliderEvent::ValueChanged(value) => {
-                    cx.emit(FacetEvent::Updated { v: *value });
+                    cx.emit(InspectorEvent::Updated { v: *value });
                 }
             },
         );
@@ -74,7 +74,7 @@ impl Facet for SliderFacet
     }
 }
 
-impl SliderFacet
+impl SliderInspector
 {
     /// Update the slider value and emit change event
     ///
@@ -85,7 +85,7 @@ impl SliderFacet
             cx.emit(SliderEvent::ValueChanged(slider.value));
             cx.notify();
         });
-        cx.emit(FacetEvent::Updated { v: value });
+        cx.emit(InspectorEvent::Updated { v: value });
     }
 
     pub fn with_range(cx: &mut Context<Self>, initial: f32, min: f32, max: f32) -> Self
@@ -104,7 +104,7 @@ impl SliderFacet
             &slider,
             |_this, _slider, event: &SliderEvent, cx| match event {
                 SliderEvent::ValueChanged(value) => {
-                    cx.emit(FacetEvent::Updated { v: *value });
+                    cx.emit(InspectorEvent::Updated { v: *value });
                 }
             },
         );
@@ -150,7 +150,7 @@ impl SliderFacet
             &slider,
             |_this, _slider, event: &SliderEvent, cx| match event {
                 SliderEvent::ValueChanged(value) => {
-                    cx.emit(FacetEvent::Updated { v: *value });
+                    cx.emit(InspectorEvent::Updated { v: *value });
                 }
             },
         );
@@ -195,7 +195,7 @@ impl SliderFacet
             &slider,
             |_this, _slider, event: &SliderEvent, cx| match event {
                 SliderEvent::ValueChanged(value) => {
-                    cx.emit(FacetEvent::Updated { v: *value });
+                    cx.emit(InspectorEvent::Updated { v: *value });
                 }
             },
         );
@@ -228,7 +228,7 @@ impl SliderFacet
     }
 }
 
-impl Render for SliderFacet
+impl Render for SliderInspector
 {
     fn render(&mut self, _window: &mut Window, _cx: &mut Context<Self>) -> impl IntoElement
     {

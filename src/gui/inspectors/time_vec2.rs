@@ -4,7 +4,7 @@ use gpui::{Context, Entity, SharedString, Window, div, px};
 // ====================
 // Editor.
 // ====================
-use crate::gui::facets::{Facet, FacetEvent};
+use crate::gui::inspectors::{Inspector, InspectorEvent};
 use crate::gui::primitives::events::{SliderEvent, TextInputEvent};
 use crate::gui::primitives::slider::{SizeVariant as SliderSizeVariant, Slider};
 use crate::gui::primitives::text_input::{BorderRadius, ColorVariant, SizeVariant, TextInput};
@@ -30,7 +30,7 @@ impl TimeVec2
     }
 }
 
-pub struct TimeVec2Facet
+pub struct TimeVec2Inspector
 {
     time_slider:    Entity<Slider>,
     x_input:        Entity<TextInput>,
@@ -38,7 +38,7 @@ pub struct TimeVec2Facet
     _subscriptions: Vec<gpui::Subscription>,
 }
 
-impl Facet for TimeVec2Facet
+impl Inspector for TimeVec2Inspector
 {
     type Value = TimeVec2;
 
@@ -88,7 +88,7 @@ impl Facet for TimeVec2Facet
             &time_slider,
             |this, _slider, event: &SliderEvent, cx| match event {
                 SliderEvent::ValueChanged(_) => {
-                    cx.emit(FacetEvent::Updated {
+                    cx.emit(InspectorEvent::Updated {
                         v: this.get_value(cx),
                     });
                 }
@@ -102,7 +102,7 @@ impl Facet for TimeVec2Facet
                 &x_input,
                 |this, _input, event: &TextInputEvent, cx| match event {
                     TextInputEvent::Edited => {
-                        cx.emit(FacetEvent::Updated {
+                        cx.emit(InspectorEvent::Updated {
                             v: this.get_value(cx),
                         });
                     }
@@ -117,7 +117,7 @@ impl Facet for TimeVec2Facet
                 &y_input,
                 |this, _input, event: &TextInputEvent, cx| match event {
                     TextInputEvent::Edited => {
-                        cx.emit(FacetEvent::Updated {
+                        cx.emit(InspectorEvent::Updated {
                             v: this.get_value(cx),
                         });
                     }
@@ -163,7 +163,7 @@ impl Facet for TimeVec2Facet
     }
 }
 
-impl Render for TimeVec2Facet
+impl Render for TimeVec2Inspector
 {
     fn render(&mut self, _window: &mut Window, _cx: &mut Context<Self>) -> impl IntoElement
     {

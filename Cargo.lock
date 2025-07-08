@@ -1976,7 +1976,7 @@ dependencies = [
 [[package]]
 name = "collections"
 version = "0.1.0"
-source = "git+https://github.com/zed-industries/zed#66a1c356bfc8510a2528d34c9df825d5db540e7a"
+source = "git+https://github.com/zed-industries/zed?rev=1220049089cb35c5b7ea89b1231b4049c164718a#1220049089cb35c5b7ea89b1231b4049c164718a"
 dependencies = [
  "indexmap 2.10.0",
  "rustc-hash 2.1.1",
@@ -2566,7 +2566,7 @@ dependencies = [
 [[package]]
 name = "derive_refineable"
 version = "0.1.0"
-source = "git+https://github.com/zed-industries/zed#66a1c356bfc8510a2528d34c9df825d5db540e7a"
+source = "git+https://github.com/zed-industries/zed?rev=1220049089cb35c5b7ea89b1231b4049c164718a#1220049089cb35c5b7ea89b1231b4049c164718a"
 dependencies = [
  "proc-macro2 1.0.95",
  "quote 1.0.40",
@@ -2687,9 +2687,7 @@ dependencies = [
  "serde_json",
  "strum 0.27.1",
  "strum_macros 0.27.1",
- "tempfile",
- "thiserror 1.0.69",
- "tokio",
+ "thiserror 2.0.12",
  "tracing",
  "tracing-subscriber",
  "unicode-segmentation",
@@ -5086,7 +5084,7 @@ dependencies = [
 [[package]]
 name = "gpui"
 version = "0.1.0"
-source = "git+https://github.com/zed-industries/zed#66a1c356bfc8510a2528d34c9df825d5db540e7a"
+source = "git+https://github.com/zed-industries/zed?rev=1220049089cb35c5b7ea89b1231b4049c164718a#1220049089cb35c5b7ea89b1231b4049c164718a"
 dependencies = [
  "anyhow",
  "as-raw-xcb-connection",
@@ -5178,7 +5176,7 @@ dependencies = [
 [[package]]
 name = "gpui_macros"
 version = "0.1.0"
-source = "git+https://github.com/zed-industries/zed#66a1c356bfc8510a2528d34c9df825d5db540e7a"
+source = "git+https://github.com/zed-industries/zed?rev=1220049089cb35c5b7ea89b1231b4049c164718a#1220049089cb35c5b7ea89b1231b4049c164718a"
 dependencies = [
  "heck 0.5.0",
  "proc-macro2 1.0.95",
@@ -5372,7 +5370,7 @@ dependencies = [
 [[package]]
 name = "http_client"
 version = "0.1.0"
-source = "git+https://github.com/zed-industries/zed#66a1c356bfc8510a2528d34c9df825d5db540e7a"
+source = "git+https://github.com/zed-industries/zed?rev=1220049089cb35c5b7ea89b1231b4049c164718a#1220049089cb35c5b7ea89b1231b4049c164718a"
 dependencies = [
  "anyhow",
  "bytes",
@@ -5722,17 +5720,6 @@ dependencies = [
  "core-foundation 0.10.1",
  "core-foundation-sys 0.8.7",
  "leaky-cow",
-]
-
-[[package]]
-name = "io-uring"
-version = "0.7.8"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b86e202f00093dcba4275d4636b93ef9dd75d025ae560d2521b45ea28ab49013"
-dependencies = [
- "bitflags 2.9.1",
- "cfg-if",
- "libc",
 ]
 
 [[package]]
@@ -6255,7 +6242,7 @@ dependencies = [
 [[package]]
 name = "media"
 version = "0.1.0"
-source = "git+https://github.com/zed-industries/zed#66a1c356bfc8510a2528d34c9df825d5db540e7a"
+source = "git+https://github.com/zed-industries/zed?rev=1220049089cb35c5b7ea89b1231b4049c164718a#1220049089cb35c5b7ea89b1231b4049c164718a"
 dependencies = [
  "anyhow",
  "bindgen 0.71.1",
@@ -6353,17 +6340,6 @@ dependencies = [
  "log",
  "wasi 0.11.1+wasi-snapshot-preview1",
  "windows-sys 0.48.0",
-]
-
-[[package]]
-name = "mio"
-version = "1.0.4"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "78bed444cc8a2160f01cbcf811ef18cac863ad68ae8ca62092e8db51d51c761c"
-dependencies = [
- "libc",
- "wasi 0.11.1+wasi-snapshot-preview1",
- "windows-sys 0.59.0",
 ]
 
 [[package]]
@@ -6554,7 +6530,7 @@ dependencies = [
  "kqueue",
  "libc",
  "log",
- "mio 0.8.11",
+ "mio",
  "walkdir",
  "windows-sys 0.48.0",
 ]
@@ -7760,7 +7736,7 @@ dependencies = [
 [[package]]
 name = "refineable"
 version = "0.1.0"
-source = "git+https://github.com/zed-industries/zed#66a1c356bfc8510a2528d34c9df825d5db540e7a"
+source = "git+https://github.com/zed-industries/zed?rev=1220049089cb35c5b7ea89b1231b4049c164718a#1220049089cb35c5b7ea89b1231b4049c164718a"
 dependencies = [
  "derive_refineable",
  "workspace-hack",
@@ -8094,7 +8070,7 @@ checksum = "0f7d95a54511e0c7be3f51e8867aa8cf35148d7b9445d44de2f943e2b206e749"
 [[package]]
 name = "semantic_version"
 version = "0.1.0"
-source = "git+https://github.com/zed-industries/zed#66a1c356bfc8510a2528d34c9df825d5db540e7a"
+source = "git+https://github.com/zed-industries/zed?rev=1220049089cb35c5b7ea89b1231b4049c164718a#1220049089cb35c5b7ea89b1231b4049c164718a"
 dependencies = [
  "anyhow",
  "serde",
@@ -8472,7 +8448,7 @@ checksum = "13c2bddecc57b384dee18652358fb23172facb8a2c51ccc10d74c157bdea3292"
 [[package]]
 name = "sum_tree"
 version = "0.1.0"
-source = "git+https://github.com/zed-industries/zed#66a1c356bfc8510a2528d34c9df825d5db540e7a"
+source = "git+https://github.com/zed-industries/zed?rev=1220049089cb35c5b7ea89b1231b4049c164718a#1220049089cb35c5b7ea89b1231b4049c164718a"
 dependencies = [
  "arrayvec",
  "log",
@@ -8934,32 +8910,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "1f3ccbac311fea05f86f61904b462b55fb3df8837a366dfc601a0161d0532f20"
 
 [[package]]
-name = "tokio"
-version = "1.46.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "0cc3a2344dafbe23a245241fe8b09735b521110d30fcefbbd5feb1797ca35d17"
-dependencies = [
- "backtrace",
- "io-uring",
- "libc",
- "mio 1.0.4",
- "pin-project-lite",
- "slab",
- "tokio-macros",
-]
-
-[[package]]
-name = "tokio-macros"
-version = "2.5.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6e06d43f1345a3bcd39f6a56dbb7dcab2ba47e68e8ac134855e7e2bdbaf8cab8"
-dependencies = [
- "proc-macro2 1.0.95",
- "quote 1.0.40",
- "syn 2.0.104",
-]
-
-[[package]]
 name = "toml"
 version = "0.8.23"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -9343,7 +9293,7 @@ checksum = "06abde3611657adf66d383f00b093d7faecc7fa57071cce2578660c9f1010821"
 [[package]]
 name = "util"
 version = "0.1.0"
-source = "git+https://github.com/zed-industries/zed#66a1c356bfc8510a2528d34c9df825d5db540e7a"
+source = "git+https://github.com/zed-industries/zed?rev=1220049089cb35c5b7ea89b1231b4049c164718a#1220049089cb35c5b7ea89b1231b4049c164718a"
 dependencies = [
  "anyhow",
  "async-fs",
@@ -10481,7 +10431,7 @@ dependencies = [
  "instant",
  "libc",
  "log",
- "mio 0.8.11",
+ "mio",
  "ndk 0.7.0",
  "objc2 0.3.0-beta.3.patch-leaks.3",
  "once_cell",

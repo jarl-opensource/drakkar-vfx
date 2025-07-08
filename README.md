@@ -1,9 +1,10 @@
 # Drakkar VFX
 
+Simple VFX editor for [Bevy](https://bevyengine.org/) and [Hanabi](https://github.com/djeedai/bevy_hanabi).
+
 <div align="center">
     <img src="assets/drakkar.jpg" alt="Drakkar VFX Logo" width="400">
 </div>
-
 
 <div align="center">
     <a href="https://jarl-game.com/discord">
@@ -11,11 +12,7 @@
     </a>
 </div>
 
-
-> 🚧 Beware! This repo is in active development and a lot of things may change.
-
-Simple VFX editor for [Bevy](https://bevyengine.org/) and [Hanabi](https://github.com/djeedai/bevy_hanabi).
-
+---
 
 <div align="center">
     <a href="https://www.youtube.com/watch?v=esLGI0UAczU">
@@ -54,8 +51,8 @@ Thanks for helping the project grow!
 
 A single-crate Rust project that bundles two executables:
 
-| Binary   | Purpose                     |
-|----------|-----------------------------|
+| Binary   | Purpose                                |
+|----------|----------------------------------------|
 | `gui`    | Stand-alone editor powered by **gpui** |
 | `viewer` | Real-time preview built on **Bevy**    |
 
@@ -72,7 +69,7 @@ Run the editor:
 ```bash
 cargo run --release \
     --bin drakkar-vfx -- \
-    --assets-root ./vfx
+    --assets-root ./examples
 ```
 
 ## Bevy and Hanabi compatibility
@@ -85,13 +82,13 @@ cargo run --release \
 
 ## OS Compatibility
 
-| OS                    | Status         |
-|-----------------------|---------------|
-| MacOS x86             | Supported     |
-| MacOS Apple Silicone  | Supported     |
-| Windows 64            | Supported     |
-| Linux x11             | Supported     |
-| Linux Wayland         | Not tested    |
+| OS                   | Status     |
+|----------------------|------------|
+| MacOS x86            | Supported  |
+| MacOS Apple Silicone | Supported  |
+| Windows 64           | Supported  |
+| Linux x11            | Supported  |
+| Linux Wayland        | Not tested |
 
 ## License
 

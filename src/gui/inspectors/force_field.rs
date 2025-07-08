@@ -4,27 +4,27 @@ use gpui::{Context, Entity, Window, div};
 // ====================
 // Editor.
 // ====================
-use crate::gui::facets::boolean::BoolFacet;
-use crate::gui::facets::float::FloatFacet;
-use crate::gui::facets::{Facet, FacetEvent};
+use crate::gui::inspectors::boolean::BoolInspector;
+use crate::gui::inspectors::float::FloatInspector;
+use crate::gui::inspectors::{Inspector, InspectorEvent};
 use crate::gui::models::modifier::XForceFieldSource;
 use crate::gui::primitives::vec3_input::Vec3Input;
 use crate::gui::styling::colors::*;
 use crate::gui::styling::fonts::*;
 
-pub struct ForceFieldSourceFacet
+pub struct ForceFieldSourceInspector
 {
     position:          Entity<Vec3Input>,
-    max_radius:        Entity<FloatFacet>,
-    min_radius:        Entity<FloatFacet>,
-    mass:              Entity<FloatFacet>,
-    force_exponent:    Entity<FloatFacet>,
-    conform_to_sphere: Entity<BoolFacet>,
+    max_radius:        Entity<FloatInspector>,
+    min_radius:        Entity<FloatInspector>,
+    mass:              Entity<FloatInspector>,
+    force_exponent:    Entity<FloatInspector>,
+    conform_to_sphere: Entity<BoolInspector>,
 
     _subscriptions: Vec<gpui::Subscription>,
 }
 
-impl Facet for ForceFieldSourceFacet
+impl Inspector for ForceFieldSourceInspector
 {
     type Value = XForceFieldSource;
 
@@ -43,7 +43,7 @@ impl Facet for ForceFieldSourceFacet
         let position = cx.new(|cx| Vec3Input::with_value(cx, position_vec3));
 
         let max_radius = cx.new(|cx| {
-            FloatFacet::new(
+            FloatInspector::new(
                 cx,
                 if let crate::gui::expr::XExpr::Lit(crate::gui::expr::XValue::Float(f)) =
                     &initial.max_radius
@@ -55,7 +55,7 @@ impl Facet for ForceFieldSourceFacet
             )
         });
         let min_radius = cx.new(|cx| {
-            FloatFacet::new(
+            FloatInspector::new(
                 cx,
                 if let crate::gui::expr::XExpr::Lit(crate::gui::expr::XValue::Float(f)) =
                     &initial.min_radius
@@ -67,7 +67,7 @@ impl Facet for ForceFieldSourceFacet
             )
         });
         let mass = cx.new(|cx| {
-            FloatFacet::new(
+            FloatInspector::new(
                 cx,
                 if let crate::gui::expr::XExpr::Lit(crate::gui::expr::XValue::Float(f)) =
                     &initial.mass
@@ -79,7 +79,7 @@ impl Facet for ForceFieldSourceFacet
             )
         });
         let force_exponent = cx.new(|cx| {
-            FloatFacet::new(
+            FloatInspector::new(
                 cx,
                 if let crate::gui::expr::XExpr::Lit(crate::gui::expr::XValue::Float(f)) =
                     &initial.force_exponent
@@ -90,7 +90,7 @@ impl Facet for ForceFieldSourceFacet
                 },
             )
         });
-        let conform_to_sphere = cx.new(|cx| BoolFacet::new(cx, initial.conform_to_sphere));
+        let conform_to_sphere = cx.new(|cx| BoolInspector::new(cx, initial.conform_to_sphere));
 
         let mut subscriptions = Vec::new();
 
@@ -98,7 +98,7 @@ impl Facet for ForceFieldSourceFacet
         subscriptions.push(cx.subscribe(
             &position,
             |this, _entity, _event: &crate::gui::primitives::events::Vec3InputEvent, cx| {
-                cx.emit(FacetEvent::Updated {
+                cx.emit(InspectorEvent::Updated {
                     v: this.get_value(cx),
                 });
             },
@@ -107,39 +107,40 @@ impl Facet for ForceFieldSourceFacet
         // Subscribe to other field changes
         subscriptions.push(cx.subscribe(
             &max_radius,
-            |this, _entity, _event: &FacetEvent<f32>, cx| {
-                cx.emit(FacetEvent::Updated {
+            |this, _entity, _event: &InspectorEvent<f32>, cx| {
+                cx.emit(InspectorEvent::Updated {
                     v: this.get_value(cx),
                 });
             },
         ));
         subscriptions.push(cx.subscribe(
             &min_radius,
-            |this, _entity, _event: &FacetEvent<f32>, cx| {
-                cx.emit(FacetEvent::Updated {
+            |this, _entity, _event: &InspectorEvent<f32>, cx| {
+                cx.emit(InspectorEvent::Updated {
                     v: this.get_value(cx),
                 });
             },
         ));
-        subscriptions.push(
-            cx.subscribe(&mass, |this, _entity, _event: &FacetEvent<f32>, cx| {
-                cx.emit(FacetEvent::Updated {
+        subscriptions.push(cx.subscribe(
+            &mass,
+            |this, _entity, _event: &InspectorEvent<f32>, cx| {
+                cx.emit(InspectorEvent::Updated {
                     v: this.get_value(cx),
                 });
-            }),
-        );
+            },
+        ));
         subscriptions.push(cx.subscribe(
             &force_exponent,
-            |this, _entity, _event: &FacetEvent<f32>, cx| {
-                cx.emit(FacetEvent::Updated {
+            |this, _entity, _event: &InspectorEvent<f32>, cx| {
+                cx.emit(InspectorEvent::Updated {
                     v: this.get_value(cx),
                 });
             },
         ));
         subscriptions.push(cx.subscribe(
             &conform_to_sphere,
-            |this, _entity, _event: &FacetEvent<bool>, cx| {
-                cx.emit(FacetEvent::Updated {
+            |this, _entity, _event: &InspectorEvent<bool>, cx| {
+                cx.emit(InspectorEvent::Updated {
                     v: this.get_value(cx),
                 });
             },
@@ -183,7 +184,7 @@ impl Facet for ForceFieldSourceFacet
     }
 }
 
-impl Render for ForceFieldSourceFacet
+impl Render for ForceFieldSourceInspector
 {
     fn render(&mut self, _window: &mut Window, _cx: &mut Context<Self>) -> impl IntoElement
     {
@@ -287,7 +288,7 @@ impl Render for ForceFieldSourceFacet
 
 impl
     gpui::EventEmitter<
-        crate::gui::facets::FacetEvent<crate::gui::models::modifier::XForceFieldSource>,
-    > for ForceFieldSourceFacet
+        crate::gui::inspectors::InspectorEvent<crate::gui::models::modifier::XForceFieldSource>,
+    > for ForceFieldSourceInspector
 {
 }
