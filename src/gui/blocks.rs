@@ -19,9 +19,9 @@ use gpui::{
 // ====================
 // Editor.
 // ====================
-use crate::gui::facets::events::{KeyValueBlockEvent, ScalarBlockEvent, SequenceBlockEvent};
-use crate::gui::facets::key_value::KeyValueFacet;
-use crate::gui::facets::{Facet, FacetEvent};
+use crate::gui::inspectors::events::{KeyValueBlockEvent, ScalarBlockEvent, SequenceBlockEvent};
+use crate::gui::inspectors::key_value::KeyValueInspector;
+use crate::gui::inspectors::{Inspector, InspectorEvent};
 use crate::gui::models::key_value::{KeyValue, KeyValueEntry};
 use crate::gui::styling::colors::*;
 use crate::gui::styling::fonts::*;
@@ -32,7 +32,7 @@ use crate::gui::styling::icons::*;
 /// This component provides a labeled input field for editing
 /// models properties with a consistent layout.
 ///
-pub struct ScalarBlock<F: Facet + Render>
+pub struct ScalarBlock<F: Inspector + Render>
 {
     label:         SharedString,
     prop:          Entity<F>,
@@ -40,29 +40,28 @@ pub struct ScalarBlock<F: Facet + Render>
     _subscription: Subscription,
 }
 
-impl<P: Facet> ScalarBlock<P>
+impl<P: Inspector> ScalarBlock<P>
 {
-    /// Create a new facet block with a label and initial value.
+    /// Create a new inspector block with a label and initial value.
     ///
     pub fn new(label: impl Into<SharedString>, val: P::Value, cx: &mut Context<Self>) -> Self
     where
         P::Value: Clone + std::fmt::Debug + Default,
-        P: gpui::EventEmitter<FacetEvent<P::Value>>,
+        P: gpui::EventEmitter<InspectorEvent<P::Value>>,
     {
         let label = label.into();
         let prop = cx.new(move |cx| P::new(cx, val));
 
         // Subscribe to the prop's events and forward them
-        let subscription =
-            cx.subscribe(
-                &prop,
-                |_this, _prop, event: &FacetEvent<P::Value>, cx| match event {
-                    FacetEvent::Updated { v } => {
-                        cx.emit(ScalarBlockEvent::Changed { v: v.clone() });
-                        cx.emit(FacetEvent::Updated { v: v.clone() });
-                    }
-                },
-            );
+        let subscription = cx.subscribe(
+            &prop,
+            |_this, _prop, event: &InspectorEvent<P::Value>, cx| match event {
+                InspectorEvent::Updated { v } => {
+                    cx.emit(ScalarBlockEvent::Changed { v: v.clone() });
+                    cx.emit(InspectorEvent::Updated { v: v.clone() });
+                }
+            },
+        );
 
         Self {
             label,
@@ -82,7 +81,7 @@ impl<P: Facet> ScalarBlock<P>
     // Value management.
     // ====================
 
-    /// Apply the current facet value to a target.
+    /// Apply the current inspector value to a target.
     ///
     pub fn apply(&self, target: &mut P::Value, cx: &Context<Self>)
     {
@@ -94,7 +93,7 @@ impl<P: Facet> ScalarBlock<P>
 // Rendering.
 // ====================
 
-impl<T: Facet + Render> Render for ScalarBlock<T>
+impl<T: Inspector + Render> Render for ScalarBlock<T>
 {
     fn render(&mut self, _window: &mut Window, _cx: &mut Context<Self>) -> impl IntoElement
     {
@@ -168,18 +167,18 @@ impl<T: Facet + Render> Render for ScalarBlock<T>
     }
 }
 
-pub enum NewValueStrategy<P: Facet + Render>
+pub enum NewValueStrategy<P: Inspector + Render>
 {
     MostRecentOr(P::Value),
     Value(P::Value),
 }
 
-/// Sequence facet block for managing sequences of uniform properties.
+/// Sequence inspector block for managing sequences of uniform properties.
 ///
-/// This component provides a labeled editor for Vec<Facet>
+/// This component provides a labeled editor for Vec<Inspector>
 /// with add/remove functionality.
 ///
-pub struct SequenceBlock<F: Facet + Render>
+pub struct SequenceBlock<F: Inspector + Render>
 {
     label:          SharedString,
     items:          Vec<Entity<F>>,
@@ -189,7 +188,7 @@ pub struct SequenceBlock<F: Facet + Render>
 
 impl<P> SequenceBlock<P>
 where
-    P: Facet,
+    P: Inspector,
 {
     /// Create a new sequence block with a label and initial values.
     ///
@@ -200,7 +199,7 @@ where
     ) -> Self
     where
         P::Value: Clone + std::fmt::Debug + Default,
-        P: gpui::EventEmitter<FacetEvent<P::Value>>,
+        P: gpui::EventEmitter<InspectorEvent<P::Value>>,
     {
         let label = label.into();
         let items: Vec<Entity<P>> = initial
@@ -215,21 +214,21 @@ where
             .map(|(index, item)| {
                 cx.subscribe(
                     item,
-                    move |this, _item, event: &FacetEvent<P::Value>, cx| {
+                    move |this, _item, event: &InspectorEvent<P::Value>, cx| {
                         match event {
-                            FacetEvent::Updated { v } => {
+                            InspectorEvent::Updated { v } => {
                                 cx.emit(SequenceBlockEvent::ItemChanged {
                                     index,
                                     v: v.clone(),
                                 });
 
-                                // Emit the entire sequence as a generic FacetEvent
+                                // Emit the entire sequence as a generic InspectorEvent
                                 let all_values: Vec<P::Value> = this
                                     .items
                                     .iter()
                                     .map(|item| item.read(cx).get_value(cx).clone())
                                     .collect();
-                                cx.emit(FacetEvent::Updated { v: all_values });
+                                cx.emit(InspectorEvent::Updated { v: all_values });
                             }
                         }
                     },
@@ -260,7 +259,7 @@ where
     fn add_item(&mut self, cx: &mut Context<Self>)
     where
         P::Value: Clone + std::fmt::Debug + Default,
-        P: gpui::EventEmitter<FacetEvent<P::Value>>,
+        P: gpui::EventEmitter<InspectorEvent<P::Value>>,
     {
         let val = match &self.new_val {
             NewValueStrategy::MostRecentOr(val) => {
@@ -278,21 +277,21 @@ where
         // Subscribe to the new item's events and forward them
         let subscription = cx.subscribe(
             &item,
-            move |this, _item, event: &FacetEvent<P::Value>, cx| {
+            move |this, _item, event: &InspectorEvent<P::Value>, cx| {
                 match event {
-                    FacetEvent::Updated { v } => {
+                    InspectorEvent::Updated { v } => {
                         cx.emit(SequenceBlockEvent::ItemChanged {
                             index,
                             v: v.clone(),
                         });
 
-                        // Emit the entire sequence as a generic FacetEvent
+                        // Emit the entire sequence as a generic InspectorEvent
                         let all_values: Vec<P::Value> = this
                             .items
                             .iter()
                             .map(|item| item.read(cx).get_value(cx).clone())
                             .collect();
-                        cx.emit(FacetEvent::Updated { v: all_values });
+                        cx.emit(InspectorEvent::Updated { v: all_values });
                     }
                 }
             },
@@ -307,13 +306,13 @@ where
             v: val.clone(),
         });
 
-        // Emit the entire sequence as a generic FacetEvent
+        // Emit the entire sequence as a generic InspectorEvent
         let all_values: Vec<P::Value> = self
             .items
             .iter()
             .map(|item| item.read(cx).get_value(cx).clone())
             .collect();
-        cx.emit(FacetEvent::Updated { v: all_values });
+        cx.emit(InspectorEvent::Updated { v: all_values });
 
         cx.notify();
     }
@@ -331,13 +330,13 @@ where
             // Emit events for the removed item
             cx.emit(SequenceBlockEvent::ItemRemoved { index });
 
-            // Emit the entire sequence as a generic FacetEvent
+            // Emit the entire sequence as a generic InspectorEvent
             let all_values: Vec<P::Value> = self
                 .items
                 .iter()
                 .map(|item| item.read(cx).get_value(cx).clone())
                 .collect();
-            cx.emit(FacetEvent::Updated { v: all_values });
+            cx.emit(InspectorEvent::Updated { v: all_values });
 
             cx.notify();
         }
@@ -362,13 +361,13 @@ where
                 to_index:   index - 1,
             });
 
-            // Emit the entire sequence as a generic FacetEvent
+            // Emit the entire sequence as a generic InspectorEvent
             let all_values: Vec<P::Value> = self
                 .items
                 .iter()
                 .map(|item| item.read(cx).get_value(cx).clone())
                 .collect();
-            cx.emit(FacetEvent::Updated { v: all_values });
+            cx.emit(InspectorEvent::Updated { v: all_values });
 
             cx.notify();
         }
@@ -393,13 +392,13 @@ where
                 to_index:   index + 1,
             });
 
-            // Emit the entire sequence as a generic FacetEvent
+            // Emit the entire sequence as a generic InspectorEvent
             let all_values: Vec<P::Value> = self
                 .items
                 .iter()
                 .map(|item| item.read(cx).get_value(cx).clone())
                 .collect();
-            cx.emit(FacetEvent::Updated { v: all_values });
+            cx.emit(InspectorEvent::Updated { v: all_values });
 
             cx.notify();
         }
@@ -424,10 +423,10 @@ where
 // Rendering.
 // ====================
 
-impl<T: Facet + Render> Render for SequenceBlock<T>
+impl<T: Inspector + Render> Render for SequenceBlock<T>
 where
     T::Value: Clone + std::fmt::Debug + Default,
-    T: gpui::EventEmitter<FacetEvent<T::Value>>,
+    T: gpui::EventEmitter<InspectorEvent<T::Value>>,
 {
     fn render(&mut self, _window: &mut Window, cx: &mut Context<Self>) -> impl IntoElement
     {
@@ -682,13 +681,13 @@ where
 
 /// KeyValue block for managing collections of key-value pairs.
 ///
-/// This component provides a labeled editor for Vec<KeyValueFacet>
+/// This component provides a labeled editor for Vec<KeyValueInspector>
 /// with add/remove functionality and type selection.
 ///
 pub struct KeyValueBlock
 {
     label:          SharedString,
-    items:          Vec<Entity<KeyValueFacet>>,
+    items:          Vec<Entity<KeyValueInspector>>,
     _subscriptions: Vec<Subscription>,
 }
 
@@ -703,9 +702,9 @@ impl KeyValueBlock
     ) -> Self
     {
         let label = label.into();
-        let items: Vec<Entity<KeyValueFacet>> = values
+        let items: Vec<Entity<KeyValueInspector>> = values
             .into_iter()
-            .map(|val| cx.new(move |cx| KeyValueFacet::new(cx, val)))
+            .map(|val| cx.new(move |cx| KeyValueInspector::new(cx, val)))
             .collect();
 
         // Subscribe to each item's events and forward them
@@ -715,21 +714,21 @@ impl KeyValueBlock
             .map(|(index, item)| {
                 cx.subscribe(
                     item,
-                    move |this, _item, event: &FacetEvent<KeyValueEntry>, cx| {
+                    move |this, _item, event: &InspectorEvent<KeyValueEntry>, cx| {
                         match event {
-                            FacetEvent::Updated { v } => {
+                            InspectorEvent::Updated { v } => {
                                 cx.emit(KeyValueBlockEvent::EntryChanged {
                                     index,
                                     entry: v.clone(),
                                 });
 
-                                // Emit the entire collection as a generic FacetEvent
+                                // Emit the entire collection as a generic InspectorEvent
                                 let all_entries: Vec<KeyValueEntry> = this
                                     .items
                                     .iter()
                                     .map(|item| item.read(cx).get_value(cx))
                                     .collect();
-                                cx.emit(FacetEvent::Updated { v: all_entries });
+                                cx.emit(InspectorEvent::Updated { v: all_entries });
                             }
                         }
                     },
@@ -754,27 +753,27 @@ impl KeyValueBlock
     {
         let key = format!("item_{}", self.items.len() + 1);
         let val = KeyValueEntry::new(key, KeyValue::default());
-        let item = cx.new(|cx| KeyValueFacet::new(cx, val.clone()));
+        let item = cx.new(|cx| KeyValueInspector::new(cx, val.clone()));
         let index = self.items.len();
 
         // Subscribe to the new item's events and forward them
         let subscription = cx.subscribe(
             &item,
-            move |this, _item, event: &FacetEvent<KeyValueEntry>, cx| {
+            move |this, _item, event: &InspectorEvent<KeyValueEntry>, cx| {
                 match event {
-                    FacetEvent::Updated { v } => {
+                    InspectorEvent::Updated { v } => {
                         cx.emit(KeyValueBlockEvent::EntryChanged {
                             index,
                             entry: v.clone(),
                         });
 
-                        // Emit the entire collection as a generic FacetEvent
+                        // Emit the entire collection as a generic InspectorEvent
                         let all_entries: Vec<KeyValueEntry> = this
                             .items
                             .iter()
                             .map(|item| item.read(cx).get_value(cx))
                             .collect();
-                        cx.emit(FacetEvent::Updated { v: all_entries });
+                        cx.emit(InspectorEvent::Updated { v: all_entries });
                     }
                 }
             },
@@ -789,13 +788,13 @@ impl KeyValueBlock
             entry: val.clone(),
         });
 
-        // Emit the entire collection as a generic FacetEvent
+        // Emit the entire collection as a generic InspectorEvent
         let all_entries: Vec<KeyValueEntry> = self
             .items
             .iter()
             .map(|item| item.read(cx).get_value(cx))
             .collect();
-        cx.emit(FacetEvent::Updated { v: all_entries });
+        cx.emit(InspectorEvent::Updated { v: all_entries });
 
         cx.notify();
     }
@@ -811,13 +810,13 @@ impl KeyValueBlock
             // Emit events for the removed item
             cx.emit(KeyValueBlockEvent::EntryRemoved { index });
 
-            // Emit the entire collection as a generic FacetEvent
+            // Emit the entire collection as a generic InspectorEvent
             let all_entries: Vec<KeyValueEntry> = self
                 .items
                 .iter()
                 .map(|item| item.read(cx).get_value(cx))
                 .collect();
-            cx.emit(FacetEvent::Updated { v: all_entries });
+            cx.emit(InspectorEvent::Updated { v: all_entries });
 
             cx.notify();
         }

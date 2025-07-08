@@ -4,22 +4,22 @@ use gpui::{Context, Entity, Window};
 // ====================
 // Editor.
 // ====================
-use crate::gui::facets::{Facet, FacetEvent};
+use crate::gui::inspectors::{Inspector, InspectorEvent};
 use crate::gui::models::color::HdrColor;
 use crate::gui::primitives::color_picker_input::{ColorPicker, SizeVariant};
 use crate::gui::primitives::events::ColorPickerEvent;
 
-pub struct ColorFacet
+pub struct ColorInspector
 {
     color_picker:   Entity<ColorPicker>,
     _subscriptions: Vec<gpui::Subscription>,
 }
 
-impl Facet for ColorFacet
+impl Inspector for ColorInspector
 {
     type Value = HdrColor;
 
-    /// Create a new color facet with initial value.
+    /// Create a new color inspector with initial value.
     ///
     fn new(cx: &mut Context<Self>, initial: Self::Value) -> Self
     {
@@ -34,13 +34,13 @@ impl Facet for ColorFacet
             |_this, _color_picker, event: &ColorPickerEvent, cx| match event {
                 ColorPickerEvent::ColorChanged(color) => {
                     let hdr_color = HdrColor::from_gpui_default(*color);
-                    cx.emit(FacetEvent::Updated { v: hdr_color });
+                    cx.emit(InspectorEvent::Updated { v: hdr_color });
                 }
                 ColorPickerEvent::ValuesChanged {
                     color, intensity, ..
                 } => {
                     let hdr_color = HdrColor::from_gpui(*color, *intensity);
-                    cx.emit(FacetEvent::Updated { v: hdr_color });
+                    cx.emit(InspectorEvent::Updated { v: hdr_color });
                 }
                 _ => {}
             },
@@ -62,7 +62,7 @@ impl Facet for ColorFacet
 // Rendering.
 // ====================
 
-impl Render for ColorFacet
+impl Render for ColorInspector
 {
     fn render(&mut self, _window: &mut Window, _cx: &mut Context<Self>) -> impl IntoElement
     {

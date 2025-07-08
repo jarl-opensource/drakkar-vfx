@@ -1,7 +1,9 @@
 use std::collections::HashMap;
 use std::path::PathBuf;
 
-#[cfg(not(feature = "jarl"))]
+// ====================
+// Deps.
+// ====================
 use bevy_hanabi::{EffectAsset, SimulationCondition, SimulationSpace};
 // ====================
 // GPUI.
@@ -22,11 +24,6 @@ use gpui::{
     div,
     px,
 };
-// ====================
-// Bevy.
-// ====================
-#[cfg(feature = "jarl")]
-use jarl_particles::{EffectAsset, SimulationCondition, SimulationSpace};
 use tracing::debug;
 
 // ====================
@@ -34,18 +31,18 @@ use tracing::debug;
 // ====================
 use crate::gui::asset_editor::error_panel::ErrorPanel;
 use crate::gui::blocks::{KeyValueBlock, NewValueStrategy, ScalarBlock, SequenceBlock};
-use crate::gui::facets::enumeration::EnumFacet;
-use crate::gui::facets::float::FloatFacet;
-use crate::gui::facets::force_field::ForceFieldSourceFacet;
-use crate::gui::facets::init_modifier::InitModifierFacet;
-use crate::gui::facets::integer::IntegerFacet;
-use crate::gui::facets::render_modifier::RenderModifierFacet;
-use crate::gui::facets::spawner::{SpawnerData, SpawnerFacet};
-use crate::gui::facets::text::TextFacet;
-use crate::gui::facets::time_color::{TimeColor, TimeColorFacet};
-use crate::gui::facets::time_vec2::{TimeVec2, TimeVec2Facet};
-use crate::gui::facets::update_modifier::UpdateModifierFacet;
-use crate::gui::facets::{Facet, FacetEvent};
+use crate::gui::inspectors::enumeration::EnumInspector;
+use crate::gui::inspectors::float::FloatInspector;
+use crate::gui::inspectors::force_field::ForceFieldSourceInspector;
+use crate::gui::inspectors::init_modifier::InitModifierInspector;
+use crate::gui::inspectors::integer::IntegerInspector;
+use crate::gui::inspectors::render_modifier::RenderModifierInspector;
+use crate::gui::inspectors::spawner::{SpawnerData, SpawnerInspector};
+use crate::gui::inspectors::text::TextInspector;
+use crate::gui::inspectors::time_color::{TimeColor, TimeColorInspector};
+use crate::gui::inspectors::time_vec2::{TimeVec2, TimeVec2Inspector};
+use crate::gui::inspectors::update_modifier::UpdateModifierInspector;
+use crate::gui::inspectors::{Inspector, InspectorEvent};
 use crate::gui::models::color::HdrColor;
 use crate::gui::models::modifier::{XInitModifier, XRenderModifier, XUpdateModifier};
 use crate::gui::models::state::{AssetState, ToHanabi};
@@ -83,34 +80,34 @@ pub struct AssetEditor
     section_states: HashMap<String, bool>,
 
     // General section
-    name:       Option<Entity<ScalarBlock<TextFacet>>>,
-    capacity:   Option<Entity<ScalarBlock<IntegerFacet>>>,
-    z_layer_2d: Option<Entity<ScalarBlock<FloatFacet>>>,
-    sim_space:  Option<Entity<ScalarBlock<EnumFacet<SimulationSpace>>>>,
-    sim_cond:   Option<Entity<ScalarBlock<EnumFacet<SimulationCondition>>>>,
+    name:       Option<Entity<ScalarBlock<TextInspector>>>,
+    capacity:   Option<Entity<ScalarBlock<IntegerInspector>>>,
+    z_layer_2d: Option<Entity<ScalarBlock<FloatInspector>>>,
+    sim_space:  Option<Entity<ScalarBlock<EnumInspector<SimulationSpace>>>>,
+    sim_cond:   Option<Entity<ScalarBlock<EnumInspector<SimulationCondition>>>>,
     section_1:  Option<Entity<BlockSection>>,
 
     // Spawner properties.
-    spawner:   Option<Entity<SpawnerFacet>>,
+    spawner:   Option<Entity<SpawnerInspector>>,
     section_2: Option<Entity<BlockSection>>,
 
     // Render Modifiers.
-    size_over_time:   Option<Entity<SequenceBlock<TimeVec2Facet>>>,
-    color_over_time:  Option<Entity<SequenceBlock<TimeColorFacet>>>,
-    render_modifiers: Option<Entity<SequenceBlock<RenderModifierFacet>>>,
+    size_over_time:   Option<Entity<SequenceBlock<TimeVec2Inspector>>>,
+    color_over_time:  Option<Entity<SequenceBlock<TimeColorInspector>>>,
+    render_modifiers: Option<Entity<SequenceBlock<RenderModifierInspector>>>,
     section_3:        Option<Entity<BlockSection>>,
 
     // Init Modifiers.
     section_4:      Option<Entity<BlockSection>>,
-    init_modifiers: Option<Entity<SequenceBlock<InitModifierFacet>>>,
+    init_modifiers: Option<Entity<SequenceBlock<InitModifierInspector>>>,
 
     // Update Modifiers.
     section_5:        Option<Entity<BlockSection>>,
-    update_modifiers: Option<Entity<SequenceBlock<UpdateModifierFacet>>>,
+    update_modifiers: Option<Entity<SequenceBlock<UpdateModifierInspector>>>,
 
     // Force Fields.
     section_6:    Option<Entity<BlockSection>>,
-    force_fields: Option<Entity<SequenceBlock<ForceFieldSourceFacet>>>,
+    force_fields: Option<Entity<SequenceBlock<ForceFieldSourceInspector>>>,
 
     // Properties.
     section_7:  Option<Entity<BlockSection>>,
@@ -294,22 +291,25 @@ impl AssetEditor
     fn initialize_editor_from_state(&mut self, state: &AssetState, cx: &mut Context<Self>)
     {
         // Section 1 – General Properties
-        self.name =
-            Some(cx.new(|cx| {
-                ScalarBlock::<TextFacet>::new("Name", state.name.clone(), cx).with_index(0)
-            }));
+        self.name = Some(cx.new(|cx| {
+            ScalarBlock::<TextInspector>::new("Name", state.name.clone(), cx).with_index(0)
+        }));
         self.capacity = Some(cx.new(|cx| {
-            ScalarBlock::<IntegerFacet>::new("Capacity", state.capacity, cx).with_index(1)
+            ScalarBlock::<IntegerInspector>::new("Capacity", state.capacity, cx).with_index(1)
         }));
         self.z_layer_2d = Some(cx.new(|cx| {
-            ScalarBlock::<FloatFacet>::new("Z Layer 2D", state.z_layer_2d, cx).with_index(2)
+            ScalarBlock::<FloatInspector>::new("Z Layer 2D", state.z_layer_2d, cx).with_index(2)
         }));
         self.sim_space = Some(cx.new(|cx| {
-            ScalarBlock::<EnumFacet<SimulationSpace>>::new("Sim. Space", state.simulation_space, cx)
-                .with_index(3)
+            ScalarBlock::<EnumInspector<SimulationSpace>>::new(
+                "Sim. Space",
+                state.simulation_space,
+                cx,
+            )
+            .with_index(3)
         }));
         self.sim_cond = Some(cx.new(|cx| {
-            ScalarBlock::<EnumFacet<SimulationCondition>>::new(
+            ScalarBlock::<EnumInspector<SimulationCondition>>::new(
                 "Sim. Cond",
                 state.simulation_condition,
                 cx,
@@ -318,7 +318,7 @@ impl AssetEditor
         }));
 
         // Section 2 – Spawner Properties
-        self.spawner = Some(cx.new(|cx| SpawnerFacet::new(cx, state.spawner.clone())));
+        self.spawner = Some(cx.new(|cx| SpawnerInspector::new(cx, state.spawner.clone())));
 
         // Section 3 – Render Modifiers
         let size_data = if state.size_over_time.is_empty() {
@@ -342,11 +342,15 @@ impl AssetEditor
         };
 
         self.size_over_time =
-            Some(cx.new(|cx| SequenceBlock::<TimeVec2Facet>::new("Size Over Time", size_data, cx)));
+            Some(cx.new(|cx| {
+                SequenceBlock::<TimeVec2Inspector>::new("Size Over Time", size_data, cx)
+            }));
         self.color_over_time = Some(cx.new(|cx| {
-            SequenceBlock::<TimeColorFacet>::new("Color Over Time", color_data, cx).with_new_val(
-                NewValueStrategy::MostRecentOr(TimeColor::new(1.0, HdrColor::default())),
-            )
+            SequenceBlock::<TimeColorInspector>::new("Color Over Time", color_data, cx)
+                .with_new_val(NewValueStrategy::MostRecentOr(TimeColor::new(
+                    1.0,
+                    HdrColor::default(),
+                )))
         }));
 
         // Create render modifiers
@@ -416,7 +420,7 @@ impl AssetEditor
                 .with_expanded(self.get_section_expanded_state("Properties"))
         }));
 
-        // Subscribe to all facet events for debugging
+        // Subscribe to all inspector events for debugging
         self.subscribe_to_all_events(cx);
     }
 
@@ -426,9 +430,9 @@ impl AssetEditor
         // Section 1 – General Properties
         if let Some(ref name) = self.name {
             let subscription =
-                cx.subscribe(name, |this, _entity, event: &FacetEvent<String>, cx| {
-                    let FacetEvent::Updated { v } = event;
-                    debug!("Facet event from 'Name': {:?}", v);
+                cx.subscribe(name, |this, _entity, event: &InspectorEvent<String>, cx| {
+                    let InspectorEvent::Updated { v } = event;
+                    debug!("Inspector event from 'Name': {:?}", v);
                     this.state.update(cx, |state, _cx| {
                         state.name = v.clone();
                     });
@@ -437,34 +441,38 @@ impl AssetEditor
             self._subscriptions.push(subscription);
         }
         if let Some(ref capacity) = self.capacity {
-            let subscription =
-                cx.subscribe(capacity, |this, _entity, event: &FacetEvent<i32>, cx| {
-                    let FacetEvent::Updated { v } = event;
-                    debug!("Facet event from 'Capacity': {:?}", v);
+            let subscription = cx.subscribe(
+                capacity,
+                |this, _entity, event: &InspectorEvent<i32>, cx| {
+                    let InspectorEvent::Updated { v } = event;
+                    debug!("Inspector event from 'Capacity': {:?}", v);
                     this.state.update(cx, |state, _cx| {
                         state.capacity = *v;
                     });
                     this.emit_asset_change(cx);
-                });
+                },
+            );
             self._subscriptions.push(subscription);
         }
         if let Some(ref z_layer_2d) = self.z_layer_2d {
-            let subscription =
-                cx.subscribe(z_layer_2d, |this, _entity, event: &FacetEvent<f32>, cx| {
-                    let FacetEvent::Updated { v } = event;
+            let subscription = cx.subscribe(
+                z_layer_2d,
+                |this, _entity, event: &InspectorEvent<f32>, cx| {
+                    let InspectorEvent::Updated { v } = event;
                     debug!("[AssetEditor] Event from 'Z Layer 2D': {:?}", v);
                     this.state.update(cx, |state, _cx| {
                         state.z_layer_2d = *v;
                     });
                     this.emit_asset_change(cx);
-                });
+                },
+            );
             self._subscriptions.push(subscription);
         }
         if let Some(ref sim_space) = self.sim_space {
             let subscription = cx.subscribe(
                 sim_space,
-                |this, _entity, event: &FacetEvent<SimulationSpace>, cx| {
-                    let FacetEvent::Updated { v } = event;
+                |this, _entity, event: &InspectorEvent<SimulationSpace>, cx| {
+                    let InspectorEvent::Updated { v } = event;
                     debug!("[AssetEditor] Event from 'Sim. Space': {:?}", v);
                     this.state.update(cx, |state, _cx| {
                         state.simulation_space = *v;
@@ -477,8 +485,8 @@ impl AssetEditor
         if let Some(ref sim_cond) = self.sim_cond {
             let subscription = cx.subscribe(
                 sim_cond,
-                |this, _entity, event: &FacetEvent<SimulationCondition>, cx| {
-                    let FacetEvent::Updated { v } = event;
+                |this, _entity, event: &InspectorEvent<SimulationCondition>, cx| {
+                    let InspectorEvent::Updated { v } = event;
                     debug!("[AssetEditor] Event from 'Sim. Cond': {:?}", v);
                     this.state.update(cx, |state, _cx| {
                         state.simulation_condition = *v;
@@ -493,8 +501,8 @@ impl AssetEditor
         if let Some(ref spawner) = self.spawner {
             let subscription = cx.subscribe(
                 spawner,
-                |this, _entity, event: &FacetEvent<SpawnerData>, cx| {
-                    let FacetEvent::Updated { v } = event;
+                |this, _entity, event: &InspectorEvent<SpawnerData>, cx| {
+                    let InspectorEvent::Updated { v } = event;
                     debug!("[AssetEditor] Event from 'Spawner': {:?}", v);
                     this.state.update(cx, |state, _cx| {
                         state.spawner = v.clone();
@@ -509,8 +517,8 @@ impl AssetEditor
         if let Some(ref size_over_time) = self.size_over_time {
             let subscription = cx.subscribe(
                 size_over_time,
-                |this, _entity, event: &FacetEvent<Vec<TimeVec2>>, cx| {
-                    let FacetEvent::Updated { v } = event;
+                |this, _entity, event: &InspectorEvent<Vec<TimeVec2>>, cx| {
+                    let InspectorEvent::Updated { v } = event;
                     debug!(
                         "[AssetEditor] Event from 'Size Over Time': {} items",
                         v.len()
@@ -526,8 +534,8 @@ impl AssetEditor
         if let Some(ref color_over_time) = self.color_over_time {
             let subscription = cx.subscribe(
                 color_over_time,
-                |this, _entity, event: &FacetEvent<Vec<TimeColor>>, cx| {
-                    let FacetEvent::Updated { v } = event;
+                |this, _entity, event: &InspectorEvent<Vec<TimeColor>>, cx| {
+                    let InspectorEvent::Updated { v } = event;
                     debug!(
                         "[AssetEditor] Event from 'Color Over Time': {} items",
                         v.len()
@@ -546,8 +554,8 @@ impl AssetEditor
         if let Some(ref init_modifiers) = self.init_modifiers {
             let subscription = cx.subscribe(
                 init_modifiers,
-                |this, _entity, event: &FacetEvent<Vec<XInitModifier>>, cx| {
-                    let FacetEvent::Updated { v } = event;
+                |this, _entity, event: &InspectorEvent<Vec<XInitModifier>>, cx| {
+                    let InspectorEvent::Updated { v } = event;
                     debug!(
                         "[AssetEditor] Event from 'Init Modifiers': {} items",
                         v.len()
@@ -565,8 +573,8 @@ impl AssetEditor
         if let Some(ref update_modifiers) = self.update_modifiers {
             let subscription = cx.subscribe(
                 update_modifiers,
-                |this, _entity, event: &FacetEvent<Vec<XUpdateModifier>>, cx| {
-                    let FacetEvent::Updated { v } = event;
+                |this, _entity, event: &InspectorEvent<Vec<XUpdateModifier>>, cx| {
+                    let InspectorEvent::Updated { v } = event;
                     debug!(
                         "[AssetEditor] Event from 'Update Modifiers': {} items",
                         v.len()
@@ -586,9 +594,9 @@ impl AssetEditor
                 force_fields,
                 |this,
                  _entity,
-                 event: &FacetEvent<Vec<crate::gui::models::modifier::XForceFieldSource>>,
+                 event: &InspectorEvent<Vec<crate::gui::models::modifier::XForceFieldSource>>,
                  cx| {
-                    let FacetEvent::Updated { v } = event;
+                    let InspectorEvent::Updated { v } = event;
                     debug!("[AssetEditor] Event from 'Force Fields': {} items", v.len());
                     this.state.update(cx, |state, _cx| {
                         state.force_fields = v.clone();
@@ -603,8 +611,8 @@ impl AssetEditor
         if let Some(ref render_modifiers) = self.render_modifiers {
             let subscription = cx.subscribe(
                 render_modifiers,
-                |this, _entity, event: &FacetEvent<Vec<XRenderModifier>>, cx| {
-                    let FacetEvent::Updated { v } = event;
+                |this, _entity, event: &InspectorEvent<Vec<XRenderModifier>>, cx| {
+                    let InspectorEvent::Updated { v } = event;
                     debug!(
                         "[AssetEditor] Event from 'Render Modifiers': {} items",
                         v.len()
@@ -624,9 +632,9 @@ impl AssetEditor
                 properties,
                 |this,
                  _entity,
-                 event: &FacetEvent<Vec<crate::gui::models::key_value::KeyValueEntry>>,
+                 event: &InspectorEvent<Vec<crate::gui::models::key_value::KeyValueEntry>>,
                  cx| {
-                    let FacetEvent::Updated { v } = event;
+                    let InspectorEvent::Updated { v } = event;
                     debug!("[AssetEditor] Event from 'Properties': {} items", v.len());
                     this.state.update(cx, |state, _cx| {
                         state.properties = v.clone();

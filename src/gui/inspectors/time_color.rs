@@ -4,7 +4,7 @@ use gpui::{Context, Entity, Window, div, px};
 // ====================
 // Editor.
 // ====================
-use crate::gui::facets::{Facet, FacetEvent};
+use crate::gui::inspectors::{Inspector, InspectorEvent};
 use crate::gui::models::color::HdrColor;
 use crate::gui::primitives::color_picker_input::{
     ColorPicker,
@@ -30,14 +30,14 @@ impl TimeColor
     }
 }
 
-pub struct TimeColorFacet
+pub struct TimeColorInspector
 {
     time_slider:    Entity<Slider>,
     color_picker:   Entity<ColorPicker>,
     _subscriptions: Vec<gpui::Subscription>,
 }
 
-impl Facet for TimeColorFacet
+impl Inspector for TimeColorInspector
 {
     type Value = TimeColor;
 
@@ -65,7 +65,7 @@ impl Facet for TimeColorFacet
             &time_slider,
             |this, _slider, event: &SliderEvent, cx| match event {
                 SliderEvent::ValueChanged(_) => {
-                    cx.emit(FacetEvent::Updated {
+                    cx.emit(InspectorEvent::Updated {
                         v: this.get_value(cx),
                     });
                 }
@@ -78,7 +78,7 @@ impl Facet for TimeColorFacet
             &color_picker,
             |this, _picker, event: &ColorPickerEvent, cx| match event {
                 ColorPickerEvent::ColorChanged(_) | ColorPickerEvent::ValuesChanged { .. } => {
-                    cx.emit(FacetEvent::Updated {
+                    cx.emit(InspectorEvent::Updated {
                         v: this.get_value(cx),
                     });
                 }
@@ -103,7 +103,7 @@ impl Facet for TimeColorFacet
     }
 }
 
-impl Render for TimeColorFacet
+impl Render for TimeColorInspector
 {
     fn render(&mut self, _window: &mut Window, _cx: &mut Context<Self>) -> impl IntoElement
     {

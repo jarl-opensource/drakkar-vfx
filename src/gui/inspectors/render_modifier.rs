@@ -4,23 +4,23 @@ use gpui::{AnyView, Context, Entity, EventEmitter, Window, div, px};
 // ====================
 // Editor.
 // ====================
-use crate::gui::facets::enumeration::EnumFacet;
-use crate::gui::facets::{Facet, FacetEvent};
+use crate::gui::inspectors::enumeration::EnumInspector;
+use crate::gui::inspectors::{Inspector, InspectorEvent};
 use crate::gui::models::modifier::{XOrientMode, XOrientModifier, XRenderModifier};
 use crate::gui::primitives::dropdown_input::{Dropdown, DropdownItem, DropdownSizeVariant};
 use crate::gui::primitives::events::DropdownEvent;
 use crate::gui::styling::colors::*;
 use crate::gui::styling::fonts::*;
 
-pub struct RenderModifierFacet
+pub struct RenderModifierInspector
 {
     type_dropdown:    Entity<Dropdown>,
     current_modifier: XRenderModifier,
-    orient_mode_enum: Entity<EnumFacet<XOrientMode>>,
+    orient_mode_enum: Entity<EnumInspector<XOrientMode>>,
     _subscriptions:   Vec<gpui::Subscription>,
 }
 
-impl Facet for RenderModifierFacet
+impl Inspector for RenderModifierInspector
 {
     type Value = XRenderModifier;
 
@@ -48,14 +48,14 @@ impl Facet for RenderModifierFacet
             XRenderModifier::XOrient(m) => m.mode.clone(),
         };
 
-        let orient_mode_enum = cx.new(|cx| EnumFacet::new(cx, orient_mode_init));
+        let orient_mode_enum = cx.new(|cx| EnumInspector::new(cx, orient_mode_init));
 
         let dropdown_subscription = cx.subscribe(
             &type_dropdown,
             |this, _dropdown, event: &DropdownEvent, cx| {
                 let DropdownEvent::SelectionChanged(index) = event;
                 this.on_type_changed(*index, cx);
-                cx.emit(FacetEvent::Updated {
+                cx.emit(InspectorEvent::Updated {
                     v: this.get_value(cx),
                 });
             },
@@ -66,11 +66,11 @@ impl Facet for RenderModifierFacet
         // Subscribe to enum field changes
         subscriptions.push(cx.subscribe(
             &orient_mode_enum,
-            |this, _entity, _event: &FacetEvent<XOrientMode>, cx| {
+            |this, _entity, _event: &InspectorEvent<XOrientMode>, cx| {
                 // Update the current modifier when the enum field changes
                 let mode = this.orient_mode_enum.read(cx).get_value(cx);
                 this.current_modifier = XRenderModifier::XOrient(XOrientModifier { mode });
-                cx.emit(FacetEvent::Updated {
+                cx.emit(InspectorEvent::Updated {
                     v: this.get_value(cx),
                 });
             },
@@ -98,9 +98,9 @@ impl Facet for RenderModifierFacet
     }
 }
 
-impl EventEmitter<FacetEvent<XRenderModifier>> for RenderModifierFacet {}
+impl EventEmitter<InspectorEvent<XRenderModifier>> for RenderModifierInspector {}
 
-impl RenderModifierFacet
+impl RenderModifierInspector
 {
     fn on_type_changed(&mut self, type_index: usize, cx: &mut Context<Self>)
     {
@@ -137,7 +137,7 @@ impl RenderModifierFacet
     }
 }
 
-impl Render for RenderModifierFacet
+impl Render for RenderModifierInspector
 {
     fn render(&mut self, _window: &mut Window, _cx: &mut Context<Self>) -> impl IntoElement
     {

@@ -5,16 +5,16 @@ use strum::IntoEnumIterator;
 // ====================
 // Editor.
 // ====================
-use crate::gui::facets::boolean::BoolFacet;
-use crate::gui::facets::float::FloatFacet;
-use crate::gui::facets::{Facet, FacetEvent};
+use crate::gui::inspectors::boolean::BoolInspector;
+use crate::gui::inspectors::float::FloatInspector;
+use crate::gui::inspectors::{Inspector, InspectorEvent};
 use crate::gui::primitives::dropdown_input::{Dropdown, DropdownItem, DropdownSizeVariant};
 use crate::gui::primitives::events::DropdownEvent;
 use crate::gui::styling::colors::*;
 use crate::gui::styling::fonts::*;
 use crate::gui::styling::icons::ProductIcon;
 
-impl EventEmitter<FacetEvent<SpawnerData>> for SpawnerFacet {}
+impl EventEmitter<InspectorEvent<SpawnerData>> for SpawnerInspector {}
 
 #[derive(Debug, Clone, PartialEq, strum::EnumIter, strum::Display)]
 pub enum SpawnerType
@@ -33,24 +33,24 @@ impl Default for SpawnerType
     }
 }
 
-pub struct SpawnerFacet
+pub struct SpawnerInspector
 {
     type_dropdown: Entity<Dropdown>,
     current_type:  SpawnerType,
 
     // Common properties
-    num_particles:      Entity<FloatFacet>,
-    starts_active:      Entity<BoolFacet>,
-    starts_immediately: Entity<BoolFacet>,
+    num_particles:      Entity<FloatInspector>,
+    starts_active:      Entity<BoolInspector>,
+    starts_immediately: Entity<BoolInspector>,
 
     // Type-specific properties
-    spawn_time: Entity<FloatFacet>,
-    period:     Entity<FloatFacet>,
+    spawn_time: Entity<FloatInspector>,
+    period:     Entity<FloatInspector>,
 
     _subscriptions: Vec<gpui::Subscription>,
 }
 
-impl Facet for SpawnerFacet
+impl Inspector for SpawnerInspector
 {
     type Value = SpawnerData;
 
@@ -78,18 +78,18 @@ impl Facet for SpawnerFacet
                 .with_size_variant(DropdownSizeVariant::Small)
         });
 
-        let num_particles = cx.new(|cx| FloatFacet::new(cx, initial.num_particles));
-        let starts_active = cx.new(|cx| BoolFacet::new(cx, initial.starts_active));
-        let starts_immediately = cx.new(|cx| BoolFacet::new(cx, initial.starts_immediately));
-        let spawn_time = cx.new(|cx| FloatFacet::new(cx, initial.spawn_time));
-        let period = cx.new(|cx| FloatFacet::new(cx, initial.period));
+        let num_particles = cx.new(|cx| FloatInspector::new(cx, initial.num_particles));
+        let starts_active = cx.new(|cx| BoolInspector::new(cx, initial.starts_active));
+        let starts_immediately = cx.new(|cx| BoolInspector::new(cx, initial.starts_immediately));
+        let spawn_time = cx.new(|cx| FloatInspector::new(cx, initial.spawn_time));
+        let period = cx.new(|cx| FloatInspector::new(cx, initial.period));
 
         let dropdown_subscription = cx.subscribe(
             &type_dropdown,
             |this, _dropdown, event: &DropdownEvent, cx| {
                 let DropdownEvent::SelectionChanged(index) = event;
                 this.on_type_changed(*index, cx);
-                cx.emit(FacetEvent::Updated {
+                cx.emit(InspectorEvent::Updated {
                     v: this.get_value(cx),
                 });
             },
@@ -98,43 +98,44 @@ impl Facet for SpawnerFacet
         let mut subscriptions = vec![dropdown_subscription];
         subscriptions.push(cx.subscribe(
             &num_particles,
-            |this, _entity, _event: &FacetEvent<f32>, cx| {
-                cx.emit(FacetEvent::Updated {
+            |this, _entity, _event: &InspectorEvent<f32>, cx| {
+                cx.emit(InspectorEvent::Updated {
                     v: this.get_value(cx),
                 });
             },
         ));
         subscriptions.push(cx.subscribe(
             &starts_active,
-            |this, _entity, _event: &FacetEvent<bool>, cx| {
-                cx.emit(FacetEvent::Updated {
+            |this, _entity, _event: &InspectorEvent<bool>, cx| {
+                cx.emit(InspectorEvent::Updated {
                     v: this.get_value(cx),
                 });
             },
         ));
         subscriptions.push(cx.subscribe(
             &starts_immediately,
-            |this, _entity, _event: &FacetEvent<bool>, cx| {
-                cx.emit(FacetEvent::Updated {
+            |this, _entity, _event: &InspectorEvent<bool>, cx| {
+                cx.emit(InspectorEvent::Updated {
                     v: this.get_value(cx),
                 });
             },
         ));
         subscriptions.push(cx.subscribe(
             &spawn_time,
-            |this, _entity, _event: &FacetEvent<f32>, cx| {
-                cx.emit(FacetEvent::Updated {
+            |this, _entity, _event: &InspectorEvent<f32>, cx| {
+                cx.emit(InspectorEvent::Updated {
                     v: this.get_value(cx),
                 });
             },
         ));
-        subscriptions.push(
-            cx.subscribe(&period, |this, _entity, _event: &FacetEvent<f32>, cx| {
-                cx.emit(FacetEvent::Updated {
+        subscriptions.push(cx.subscribe(
+            &period,
+            |this, _entity, _event: &InspectorEvent<f32>, cx| {
+                cx.emit(InspectorEvent::Updated {
                     v: this.get_value(cx),
                 });
-            }),
-        );
+            },
+        ));
 
         Self {
             type_dropdown,
@@ -174,7 +175,7 @@ impl Facet for SpawnerFacet
     }
 }
 
-impl SpawnerFacet
+impl SpawnerInspector
 {
     fn determine_spawner_type(data: &SpawnerData) -> SpawnerType
     {
@@ -215,7 +216,7 @@ impl SpawnerFacet
     }
 }
 
-impl Render for SpawnerFacet
+impl Render for SpawnerInspector
 {
     fn render(&mut self, _window: &mut Window, _cx: &mut Context<Self>) -> impl IntoElement
     {

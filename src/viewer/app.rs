@@ -18,7 +18,6 @@ use bevy::window::WindowResolution;
 // ====================
 // Particles.
 // ====================
-#[cfg(not(feature = "jarl"))]
 use bevy_hanabi::{
     EffectAsset,
     EffectSpawner,
@@ -26,17 +25,6 @@ use bevy_hanabi::{
     HanabiPlugin,
     ParticleEffect,
     ParticleEffectBundle,
-};
-#[cfg(feature = "jarl")]
-use jarl_particles::prelude::*;
-#[cfg(feature = "jarl")]
-use jarl_particles::{
-    EffectAsset,
-    EffectSpawner,
-    ForceFieldModifier,
-    HanabiPlugin,
-    ParticleCountStats,
-    ParticleEffect,
 };
 
 // ====================
@@ -257,9 +245,6 @@ fn sys_input_system(
 
 fn sys_particle_stats(
     mut particle_stats: ResMut<ParticleStats>,
-
-    #[cfg(feature = "jarl")] particle_count_stats: Res<ParticleCountStats>,
-
     time: Res<Time>,
     particle_query: Query<(Entity, &EffectSpawner)>,
 )
@@ -271,11 +256,7 @@ fn sys_particle_stats(
     particle_stats.bbox_size = Vec2::new(32.0, 32.0);
 
     if let Some((_entity, spawner)) = particle_query.iter().next() {
-        #[cfg(feature = "jarl")]
-        {
-            particle_stats.particle_count = particle_count_stats.get_count(_entity);
-        }
-
+        // TODO: update particle count
         let spawn_count = spawner.spawn_count();
         let spawner_config = spawner.spawner();
         if spawner_config.is_once() {
@@ -286,10 +267,7 @@ fn sys_particle_stats(
         particle_stats.effect_age += delta_time;
         particle_stats.total_spawned = particle_stats.total_spawned.saturating_add(spawn_count);
     } else {
-        #[cfg(feature = "jarl")]
-        {
-            particle_stats.particle_count = particle_count_stats.get_total_count();
-        }
+        // TODO: update particle count
         particle_stats.spawner_type = "None".to_string();
     }
     particle_stats.last_update_time = current_time;

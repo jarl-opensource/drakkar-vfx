@@ -1744,7 +1744,7 @@ dependencies = [
  "serde_json",
  "syn 2.0.104",
  "tempfile",
- "toml",
+ "toml 0.8.23",
 ]
 
 [[package]]
@@ -1976,7 +1976,7 @@ dependencies = [
 [[package]]
 name = "collections"
 version = "0.1.0"
-source = "git+https://github.com/zed-industries/zed#66a1c356bfc8510a2528d34c9df825d5db540e7a"
+source = "git+https://github.com/zed-industries/zed?rev=1220049089cb35c5b7ea89b1231b4049c164718a#1220049089cb35c5b7ea89b1231b4049c164718a"
 dependencies = [
  "indexmap 2.10.0",
  "rustc-hash 2.1.1",
@@ -2566,7 +2566,7 @@ dependencies = [
 [[package]]
 name = "derive_refineable"
 version = "0.1.0"
-source = "git+https://github.com/zed-industries/zed#66a1c356bfc8510a2528d34c9df825d5db540e7a"
+source = "git+https://github.com/zed-industries/zed?rev=1220049089cb35c5b7ea89b1231b4049c164718a#1220049089cb35c5b7ea89b1231b4049c164718a"
 dependencies = [
  "proc-macro2 1.0.95",
  "quote 1.0.40",
@@ -2687,9 +2687,7 @@ dependencies = [
  "serde_json",
  "strum 0.27.1",
  "strum_macros 0.27.1",
- "tempfile",
- "thiserror 1.0.69",
- "tokio",
+ "thiserror 2.0.12",
  "tracing",
  "tracing-subscriber",
  "unicode-segmentation",
@@ -2743,14 +2741,14 @@ checksum = "48c757948c5ede0e46177b7add2e67155f70e33c07fea8284df6576da70b3719"
 
 [[package]]
 name = "embed-resource"
-version = "3.0.4"
+version = "3.0.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "0963f530273dc3022ab2bdc3fcd6d488e850256f2284a82b7413cb9481ee85dd"
+checksum = "4c6d81016d6c977deefb2ef8d8290da019e27cc26167e102185da528e6c0ab38"
 dependencies = [
  "cc",
  "memchr",
  "rustc_version",
- "toml",
+ "toml 0.9.0",
  "vswhom",
  "winreg",
 ]
@@ -5086,7 +5084,7 @@ dependencies = [
 [[package]]
 name = "gpui"
 version = "0.1.0"
-source = "git+https://github.com/zed-industries/zed#66a1c356bfc8510a2528d34c9df825d5db540e7a"
+source = "git+https://github.com/zed-industries/zed?rev=1220049089cb35c5b7ea89b1231b4049c164718a#1220049089cb35c5b7ea89b1231b4049c164718a"
 dependencies = [
  "anyhow",
  "as-raw-xcb-connection",
@@ -5178,7 +5176,7 @@ dependencies = [
 [[package]]
 name = "gpui_macros"
 version = "0.1.0"
-source = "git+https://github.com/zed-industries/zed#66a1c356bfc8510a2528d34c9df825d5db540e7a"
+source = "git+https://github.com/zed-industries/zed?rev=1220049089cb35c5b7ea89b1231b4049c164718a#1220049089cb35c5b7ea89b1231b4049c164718a"
 dependencies = [
  "heck 0.5.0",
  "proc-macro2 1.0.95",
@@ -5372,7 +5370,7 @@ dependencies = [
 [[package]]
 name = "http_client"
 version = "0.1.0"
-source = "git+https://github.com/zed-industries/zed#66a1c356bfc8510a2528d34c9df825d5db540e7a"
+source = "git+https://github.com/zed-industries/zed?rev=1220049089cb35c5b7ea89b1231b4049c164718a#1220049089cb35c5b7ea89b1231b4049c164718a"
 dependencies = [
  "anyhow",
  "bytes",
@@ -5722,17 +5720,6 @@ dependencies = [
  "core-foundation 0.10.1",
  "core-foundation-sys 0.8.7",
  "leaky-cow",
-]
-
-[[package]]
-name = "io-uring"
-version = "0.7.8"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b86e202f00093dcba4275d4636b93ef9dd75d025ae560d2521b45ea28ab49013"
-dependencies = [
- "bitflags 2.9.1",
- "cfg-if",
- "libc",
 ]
 
 [[package]]
@@ -6255,7 +6242,7 @@ dependencies = [
 [[package]]
 name = "media"
 version = "0.1.0"
-source = "git+https://github.com/zed-industries/zed#66a1c356bfc8510a2528d34c9df825d5db540e7a"
+source = "git+https://github.com/zed-industries/zed?rev=1220049089cb35c5b7ea89b1231b4049c164718a#1220049089cb35c5b7ea89b1231b4049c164718a"
 dependencies = [
  "anyhow",
  "bindgen 0.71.1",
@@ -6353,17 +6340,6 @@ dependencies = [
  "log",
  "wasi 0.11.1+wasi-snapshot-preview1",
  "windows-sys 0.48.0",
-]
-
-[[package]]
-name = "mio"
-version = "1.0.4"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "78bed444cc8a2160f01cbcf811ef18cac863ad68ae8ca62092e8db51d51c761c"
-dependencies = [
- "libc",
- "wasi 0.11.1+wasi-snapshot-preview1",
- "windows-sys 0.59.0",
 ]
 
 [[package]]
@@ -6554,7 +6530,7 @@ dependencies = [
  "kqueue",
  "libc",
  "log",
- "mio 0.8.11",
+ "mio",
  "walkdir",
  "windows-sys 0.48.0",
 ]
@@ -7760,7 +7736,7 @@ dependencies = [
 [[package]]
 name = "refineable"
 version = "0.1.0"
-source = "git+https://github.com/zed-industries/zed#66a1c356bfc8510a2528d34c9df825d5db540e7a"
+source = "git+https://github.com/zed-industries/zed?rev=1220049089cb35c5b7ea89b1231b4049c164718a#1220049089cb35c5b7ea89b1231b4049c164718a"
 dependencies = [
  "derive_refineable",
  "workspace-hack",
@@ -8094,7 +8070,7 @@ checksum = "0f7d95a54511e0c7be3f51e8867aa8cf35148d7b9445d44de2f943e2b206e749"
 [[package]]
 name = "semantic_version"
 version = "0.1.0"
-source = "git+https://github.com/zed-industries/zed#66a1c356bfc8510a2528d34c9df825d5db540e7a"
+source = "git+https://github.com/zed-industries/zed?rev=1220049089cb35c5b7ea89b1231b4049c164718a#1220049089cb35c5b7ea89b1231b4049c164718a"
 dependencies = [
  "anyhow",
  "serde",
@@ -8192,6 +8168,15 @@ name = "serde_spanned"
 version = "0.6.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "bf41e0cfaf7226dca15e8197172c295a782857fcb97fad1808a166870dee75a3"
+dependencies = [
+ "serde",
+]
+
+[[package]]
+name = "serde_spanned"
+version = "1.0.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "40734c41988f7306bb04f0ecf60ec0f3f1caa34290e4e8ea471dcd3346483b83"
 dependencies = [
  "serde",
 ]
@@ -8472,7 +8457,7 @@ checksum = "13c2bddecc57b384dee18652358fb23172facb8a2c51ccc10d74c157bdea3292"
 [[package]]
 name = "sum_tree"
 version = "0.1.0"
-source = "git+https://github.com/zed-industries/zed#66a1c356bfc8510a2528d34c9df825d5db540e7a"
+source = "git+https://github.com/zed-industries/zed?rev=1220049089cb35c5b7ea89b1231b4049c164718a#1220049089cb35c5b7ea89b1231b4049c164718a"
 dependencies = [
  "arrayvec",
  "log",
@@ -8674,7 +8659,7 @@ dependencies = [
  "cfg-expr",
  "heck 0.5.0",
  "pkg-config",
- "toml",
+ "toml 0.8.23",
  "version-compare",
 ]
 
@@ -8934,41 +8919,30 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "1f3ccbac311fea05f86f61904b462b55fb3df8837a366dfc601a0161d0532f20"
 
 [[package]]
-name = "tokio"
-version = "1.46.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "0cc3a2344dafbe23a245241fe8b09735b521110d30fcefbbd5feb1797ca35d17"
-dependencies = [
- "backtrace",
- "io-uring",
- "libc",
- "mio 1.0.4",
- "pin-project-lite",
- "slab",
- "tokio-macros",
-]
-
-[[package]]
-name = "tokio-macros"
-version = "2.5.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6e06d43f1345a3bcd39f6a56dbb7dcab2ba47e68e8ac134855e7e2bdbaf8cab8"
-dependencies = [
- "proc-macro2 1.0.95",
- "quote 1.0.40",
- "syn 2.0.104",
-]
-
-[[package]]
 name = "toml"
 version = "0.8.23"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "dc1beb996b9d83529a9e75c17a1686767d148d70663143c7854d8b4a09ced362"
 dependencies = [
  "serde",
- "serde_spanned",
- "toml_datetime",
+ "serde_spanned 0.6.9",
+ "toml_datetime 0.6.11",
  "toml_edit 0.22.27",
+]
+
+[[package]]
+name = "toml"
+version = "0.9.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "f271e09bde39ab52250160a67e88577e0559ad77e9085de6e9051a2c4353f8f8"
+dependencies = [
+ "indexmap 2.10.0",
+ "serde",
+ "serde_spanned 1.0.0",
+ "toml_datetime 0.7.0",
+ "toml_parser",
+ "toml_writer",
+ "winnow 0.7.11",
 ]
 
 [[package]]
@@ -8981,13 +8955,22 @@ dependencies = [
 ]
 
 [[package]]
+name = "toml_datetime"
+version = "0.7.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "bade1c3e902f58d73d3f294cd7f20391c1cb2fbcb643b73566bc773971df91e3"
+dependencies = [
+ "serde",
+]
+
+[[package]]
 name = "toml_edit"
 version = "0.19.15"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "1b5bb770da30e5cbfde35a2d7b9b8a2c4b8ef89548a7a6aeab5c9a576e3e7421"
 dependencies = [
  "indexmap 2.10.0",
- "toml_datetime",
+ "toml_datetime 0.6.11",
  "winnow 0.5.40",
 ]
 
@@ -8999,9 +8982,18 @@ checksum = "41fe8c660ae4257887cf66394862d21dbca4a6ddd26f04a3560410406a2f819a"
 dependencies = [
  "indexmap 2.10.0",
  "serde",
- "serde_spanned",
- "toml_datetime",
+ "serde_spanned 0.6.9",
+ "toml_datetime 0.6.11",
  "toml_write",
+ "winnow 0.7.11",
+]
+
+[[package]]
+name = "toml_parser"
+version = "1.0.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b5c1c469eda89749d2230d8156a5969a69ffe0d6d01200581cdc6110674d293e"
+dependencies = [
  "winnow 0.7.11",
 ]
 
@@ -9010,6 +9002,12 @@ name = "toml_write"
 version = "0.1.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "5d99f8c9a7727884afe522e9bd5edbfc91a3312b36a77b5fb8926e4c31a41801"
+
+[[package]]
+name = "toml_writer"
+version = "1.0.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b679217f2848de74cabd3e8fc5e6d66f40b7da40f8e1954d92054d9010690fd5"
 
 [[package]]
 name = "tracing"
@@ -9343,7 +9341,7 @@ checksum = "06abde3611657adf66d383f00b093d7faecc7fa57071cce2578660c9f1010821"
 [[package]]
 name = "util"
 version = "0.1.0"
-source = "git+https://github.com/zed-industries/zed#66a1c356bfc8510a2528d34c9df825d5db540e7a"
+source = "git+https://github.com/zed-industries/zed?rev=1220049089cb35c5b7ea89b1231b4049c164718a#1220049089cb35c5b7ea89b1231b4049c164718a"
 dependencies = [
  "anyhow",
  "async-fs",
@@ -10481,7 +10479,7 @@ dependencies = [
  "instant",
  "libc",
  "log",
- "mio 0.8.11",
+ "mio",
  "ndk 0.7.0",
  "objc2 0.3.0-beta.3.patch-leaks.3",
  "once_cell",

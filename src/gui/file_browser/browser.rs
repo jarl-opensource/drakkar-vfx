@@ -35,11 +35,11 @@ use crate::gui::file_browser::status_bar::StatusBar;
 use crate::gui::primitives::button::*;
 use crate::gui::primitives::events::TextInputEvent;
 use crate::gui::primitives::text_input::*;
+use crate::gui::scm::*;
 use crate::gui::styling::colors::*;
 use crate::gui::styling::fonts::*;
 use crate::gui::styling::icons::ProductIcon;
 use crate::gui::utils::fs::*;
-use crate::gui::utils::scm::*;
 use crate::gui::utils::text::*;
 
 /// File browser widget for browsing and managing particle effect models files.

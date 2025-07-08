@@ -42,7 +42,7 @@ use crate::gui::client::ViewerSyncClient;
 use crate::gui::file_browser::browser::FileBrowser;
 use crate::gui::file_browser::events::{FileBrowserEvent, StatusBarEvent};
 use crate::gui::models::state::FromHanabi;
-use crate::gui::server_wrapper::ServerWrapper;
+use crate::gui::server_adapter::ViewerServerAdapter;
 use crate::gui::styling::colors::*;
 use crate::gui::styling::fonts::*;
 use crate::gui::utils::asset_source::GuiAssets;
@@ -90,7 +90,7 @@ impl GuiCliArgs
 
 pub struct GuiAppState
 {
-    pub server_wrapper:    ServerWrapper,
+    pub server_wrapper:    ViewerServerAdapter,
     pub sync_client:       ViewerSyncClient,
     pub file_browser:      Entity<FileBrowser>,
     pub asset_editor:      Entity<AssetEditor>,
@@ -106,7 +106,7 @@ impl GuiAppState
             PathBuf::from(manifest_dir).join("assets")
         });
 
-        let mut server_wrapper = ServerWrapper::new();
+        let mut server_wrapper = ViewerServerAdapter::new();
         if !args.skip_start_viewer {
             match server_wrapper.start() {
                 Ok(()) => {

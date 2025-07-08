@@ -4,7 +4,7 @@ use gpui::{AnyView, Context, Entity, SharedString, Window, div, px};
 // ====================
 // Editor.
 // ====================
-use crate::gui::facets::{Facet, FacetEvent};
+use crate::gui::inspectors::{Inspector, InspectorEvent};
 use crate::gui::models::color::HdrColor;
 use crate::gui::models::key_value::{KeyValue, KeyValueEntry, ValueType};
 use crate::gui::primitives::color_picker_input::ColorPicker;
@@ -22,7 +22,7 @@ use crate::gui::primitives::vec3_input::Vec3Input;
 use crate::gui::styling::colors::*;
 use crate::gui::utils::text::ValidationMode;
 
-pub struct KeyValueFacet
+pub struct KeyValueInspector
 {
     key_input: Entity<TextInput>,
 
@@ -37,7 +37,7 @@ pub struct KeyValueFacet
     _subscriptions: Vec<gpui::Subscription>,
 }
 
-impl Facet for KeyValueFacet
+impl Inspector for KeyValueInspector
 {
     type Value = KeyValueEntry;
 
@@ -132,7 +132,7 @@ impl Facet for KeyValueFacet
             |this, _dropdown, event: &DropdownEvent, cx| match event {
                 DropdownEvent::SelectionChanged(index) => {
                     this.on_type_changed(*index, cx);
-                    cx.emit(FacetEvent::Updated {
+                    cx.emit(InspectorEvent::Updated {
                         v: this.get_value(cx),
                     });
                 }
@@ -145,7 +145,7 @@ impl Facet for KeyValueFacet
             &key_input,
             |this, _input, event: &TextInputEvent, cx| match event {
                 TextInputEvent::Edited => {
-                    cx.emit(FacetEvent::Updated {
+                    cx.emit(InspectorEvent::Updated {
                         v: this.get_value(cx),
                     });
                 }
@@ -160,7 +160,7 @@ impl Facet for KeyValueFacet
             |this, _input, event: &TextInputEvent, cx| match event {
                 TextInputEvent::Edited => {
                     if this.value_type == ValueType::Float {
-                        cx.emit(FacetEvent::Updated {
+                        cx.emit(InspectorEvent::Updated {
                             v: this.get_value(cx),
                         });
                     }
@@ -176,7 +176,7 @@ impl Facet for KeyValueFacet
             |this, _input, event: &TextInputEvent, cx| match event {
                 TextInputEvent::Edited => {
                     if this.value_type == ValueType::Integer {
-                        cx.emit(FacetEvent::Updated {
+                        cx.emit(InspectorEvent::Updated {
                             v: this.get_value(cx),
                         });
                     }
@@ -192,7 +192,7 @@ impl Facet for KeyValueFacet
             |this, _input, event: &Vec2InputEvent, cx| match event {
                 Vec2InputEvent::Changed(_) => {
                     if this.value_type == ValueType::Vec2 {
-                        cx.emit(FacetEvent::Updated {
+                        cx.emit(InspectorEvent::Updated {
                             v: this.get_value(cx),
                         });
                     }
@@ -207,7 +207,7 @@ impl Facet for KeyValueFacet
             |this, _input, event: &Vec3InputEvent, cx| match event {
                 Vec3InputEvent::Changed(_) => {
                     if this.value_type == ValueType::Vec3 {
-                        cx.emit(FacetEvent::Updated {
+                        cx.emit(InspectorEvent::Updated {
                             v: this.get_value(cx),
                         });
                     }
@@ -222,7 +222,7 @@ impl Facet for KeyValueFacet
             |this, _input, event: &ColorPickerEvent, cx| match event {
                 ColorPickerEvent::ColorChanged(_) | ColorPickerEvent::ValuesChanged { .. } => {
                     if this.value_type == ValueType::Color {
-                        cx.emit(FacetEvent::Updated {
+                        cx.emit(InspectorEvent::Updated {
                             v: this.get_value(cx),
                         });
                     }
@@ -278,7 +278,7 @@ impl Facet for KeyValueFacet
     }
 }
 
-impl KeyValueFacet
+impl KeyValueInspector
 {
     fn on_type_changed(&mut self, type_index: usize, cx: &mut Context<Self>)
     {
@@ -290,7 +290,7 @@ impl KeyValueFacet
     }
 }
 
-impl Render for KeyValueFacet
+impl Render for KeyValueInspector
 {
     fn render(&mut self, _window: &mut Window, _cx: &mut Context<Self>) -> impl IntoElement
     {

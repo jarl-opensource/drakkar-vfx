@@ -41,8 +41,8 @@ gix = { version = "0.72", default-features = false, features = [
     "parallel",
     "worktree-mutation",
 ] }
-thiserror = { version = "1.0" }
-gpui = { git = "https://github.com/zed-industries/zed" }
+thiserror = { version = "2.0" }
+gpui = { git = "https://github.com/zed-industries/zed", rev = "1220049089cb35c5b7ea89b1231b4049c164718a" }
 kanal = { version = "0.1", default-features = false, features = ["async"] }
 libc = { version = "0.2" }
 open = { version = "5.0" }
@@ -56,17 +56,24 @@ clap = { version = "4.5", default-features = true, features = ["derive"] }
 strum = { version = "0.27", default-features = false, features = ["derive"] }
 strum_macros = { version = "0.27", default-features = false }
 autopilot = { version = "0.4.1" }
-tokio = { version = "1", default-features = false, features = [
-    "rt",
-    "rt-multi-thread",
-    "macros",
-] }
-
-[dev-dependencies]
-tempfile = "3.8"
 
 [build-dependencies]
 vergen-gix = { version = "1.0.9", features = ["build", "cargo", "rustc", "si"] }
 
-[features]
-jarl = []
+[profile.release]
+debug = false
+lto = true
+opt-level = 3
+panic = "unwind"
+strip = "debuginfo"
+
+[profile.dev.package."*"]
+opt-level = 3
+debug = true
+incremental = true
+
+[profile.dev]
+opt-level = 0
+debug = true
+incremental = true
+rpath = true

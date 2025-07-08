@@ -7,11 +7,11 @@ use strum::IntoEnumIterator;
 // ====================
 // Editor.
 // ====================
-use crate::gui::facets::{Facet, FacetEvent};
+use crate::gui::inspectors::{Inspector, InspectorEvent};
 use crate::gui::primitives::dropdown_input::{Dropdown, DropdownItem, DropdownSizeVariant};
 use crate::gui::primitives::events::DropdownEvent;
 
-pub struct EnumFacet<E>
+pub struct EnumInspector<E>
 where
     E: 'static + IntoEnumIterator + Clone + Default + std::fmt::Debug + std::fmt::Display,
 {
@@ -20,7 +20,7 @@ where
     _p:             PhantomData<E>,
 }
 
-impl<E> Facet for EnumFacet<E>
+impl<E> Inspector for EnumInspector<E>
 where
     E: 'static
         + IntoEnumIterator
@@ -58,7 +58,7 @@ where
             |_this, _dropdown, event: &DropdownEvent, cx| match event {
                 DropdownEvent::SelectionChanged(index) => {
                     if let Some(enum_value) = E::iter().nth(*index) {
-                        cx.emit(FacetEvent::Updated { v: enum_value });
+                        cx.emit(InspectorEvent::Updated { v: enum_value });
                     }
                 }
             },
@@ -82,7 +82,7 @@ where
     }
 }
 
-impl<E> EnumFacet<E>
+impl<E> EnumInspector<E>
 where
     E: 'static
         + IntoEnumIterator
@@ -103,7 +103,7 @@ where
     }
 }
 
-impl<E> Render for EnumFacet<E>
+impl<E> Render for EnumInspector<E>
 where
     E: 'static
         + IntoEnumIterator

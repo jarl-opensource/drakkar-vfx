@@ -6,27 +6,27 @@ use gpui::{Context, Entity, Window, div};
 // ====================
 use crate::gui::expr::XParseError;
 use crate::gui::expr::xexpr::XExpr;
-use crate::gui::facets::{Facet, FacetEvent};
+use crate::gui::inspectors::{Inspector, InspectorEvent};
 use crate::gui::primitives::events::ExprInputEvent;
 use crate::gui::primitives::expr_input::ExprInput;
 use crate::gui::primitives::text_input::SizeVariant;
 use crate::gui::styling::colors::*;
 use crate::gui::styling::icons::ProductIcon;
 
-/// Expression facet field for models editor.
+/// Expression inspector field for models editor.
 /// Provides an expression input widget with syntax highlighting and auto-completion.
 ///
-pub struct ExprFacet
+pub struct ExprInspector
 {
     expr_input:     Entity<ExprInput>,
     _subscriptions: Vec<gpui::Subscription>,
 }
 
-impl Facet for ExprFacet
+impl Inspector for ExprInspector
 {
     type Value = Option<XExpr>;
 
-    /// Create a new expression facet with initial value.
+    /// Create a new expression inspector with initial value.
     ///
     fn new(cx: &mut Context<Self>, initial: Self::Value) -> Self
     {
@@ -48,12 +48,12 @@ impl Facet for ExprFacet
             &expr_input,
             |this, _expr_input, event: &ExprInputEvent, cx| match event {
                 ExprInputEvent::Change(_) => {
-                    cx.emit(FacetEvent::Updated {
+                    cx.emit(InspectorEvent::Updated {
                         v: this.get_value(cx),
                     });
                 }
                 ExprInputEvent::Submit(_) => {
-                    cx.emit(FacetEvent::Updated {
+                    cx.emit(InspectorEvent::Updated {
                         v: this.get_value(cx),
                     });
                 }
@@ -82,7 +82,7 @@ impl Facet for ExprFacet
 // Additional methods.
 // ====================
 
-impl ExprFacet
+impl ExprInspector
 {
     /// Check if the current expression is valid.
     /// Returns true if the expression can be parsed successfully.
@@ -119,7 +119,7 @@ impl ExprFacet
 // Rendering.
 // ====================
 
-impl Render for ExprFacet
+impl Render for ExprInspector
 {
     fn render(&mut self, _window: &mut Window, cx: &mut Context<Self>) -> impl IntoElement
     {

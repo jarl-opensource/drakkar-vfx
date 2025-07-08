@@ -4,28 +4,28 @@ use gpui::{Context, Entity, SharedString, Window, div, px};
 // ====================
 // Editor.
 // ====================
-use crate::gui::facets::{Facet, FacetEvent};
+use crate::gui::inspectors::{Inspector, InspectorEvent};
 use crate::gui::primitives::events::TextInputEvent;
 use crate::gui::primitives::increment_buttons::{IncrementButtons, IncrementEvent};
 use crate::gui::primitives::text_input::{BorderRadius, ColorVariant, SizeVariant, TextInput};
 use crate::gui::styling::colors::*;
 use crate::gui::utils::text::ValidationMode;
 
-/// Float facet field for models editor.
+/// Float inspector field for models editor.
 /// Provides a text input widget for floating-point properties with numeric validation and increment buttons.
 ///
-pub struct FloatFacet
+pub struct FloatInspector
 {
     input:             Entity<TextInput>,
     increment_buttons: Entity<IncrementButtons>,
     _subscriptions:    Vec<gpui::Subscription>,
 }
 
-impl Facet for FloatFacet
+impl Inspector for FloatInspector
 {
     type Value = f32;
 
-    /// Create a new float facet with initial value.
+    /// Create a new float inspector with initial value.
     ///
     fn new(cx: &mut Context<Self>, initial: Self::Value) -> Self
     {
@@ -52,7 +52,7 @@ impl Facet for FloatFacet
                 TextInputEvent::Edited => {
                     let content = this.input.read(cx).content.to_string();
                     let value = Self::parse_float(&content);
-                    cx.emit(FacetEvent::Updated { v: value });
+                    cx.emit(InspectorEvent::Updated { v: value });
                 }
                 _ => {}
             },
@@ -91,7 +91,7 @@ impl Facet for FloatFacet
     }
 }
 
-impl FloatFacet
+impl FloatInspector
 {
     /// Format a f32 value to string, handling special values consistently.
     ///
@@ -133,7 +133,7 @@ impl FloatFacet
             input.content = SharedString::new(formatted);
             cx.notify();
         });
-        cx.emit(FacetEvent::Updated { v: value });
+        cx.emit(InspectorEvent::Updated { v: value });
     }
 }
 
@@ -141,7 +141,7 @@ impl FloatFacet
 // Rendering.
 // ====================
 
-impl Render for FloatFacet
+impl Render for FloatInspector
 {
     fn render(&mut self, _window: &mut Window, _cx: &mut Context<Self>) -> impl IntoElement
     {

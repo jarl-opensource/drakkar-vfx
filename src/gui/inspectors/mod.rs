@@ -26,9 +26,9 @@ use gpui::{Context, Render};
 // ====================
 
 #[derive(Debug, Clone)]
-pub enum FacetEvent<V: Clone + std::fmt::Debug + Default>
+pub enum InspectorEvent<V: Clone + std::fmt::Debug + Default>
 {
-    /// The facet's value has changed.
+    /// The inspector's value has changed.
     Updated
     {
         v: V
@@ -39,19 +39,19 @@ pub enum FacetEvent<V: Clone + std::fmt::Debug + Default>
 // Traits.
 // ====================
 
-/// Trait for composite facets which are built from primitives and combined into facets.
+/// Trait for composite inspectors which are built from primitives and other inspectors.
 ///
-pub trait Facet: Sized + 'static + Render
+pub trait Inspector: Sized + 'static + Render
 where
     Self::Value: Clone + std::fmt::Debug + Default,
 {
     type Value;
 
-    /// Create a new facet with an initial value.
+    /// Create a new inspector with an initial value.
     ///
     fn new(cx: &mut Context<Self>, initial: Self::Value) -> Self;
 
-    /// Get the current value from the facet field.
+    /// Get the current value from the inspector field.
     ///
     fn get_value<T>(&self, cx: &Context<T>) -> Self::Value;
 }

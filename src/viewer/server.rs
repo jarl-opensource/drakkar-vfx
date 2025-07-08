@@ -12,13 +12,10 @@ use std::thread;
 // ====================
 use bevy::app::AppExit;
 use bevy::prelude::*;
-#[cfg(not(feature = "jarl"))]
-use bevy_hanabi::EffectAsset;
 // ====================
 // Particles.
 // ====================
-#[cfg(feature = "jarl")]
-use jarl_particles::EffectAsset;
+use bevy_hanabi::EffectAsset;
 use kanal::{Receiver, Sender};
 
 // ====================

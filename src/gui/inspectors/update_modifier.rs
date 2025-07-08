@@ -5,8 +5,8 @@ use strum::IntoEnumIterator;
 // ====================
 // Editor.
 // ====================
-use crate::gui::facets::expr::ExprFacet;
-use crate::gui::facets::{Facet, FacetEvent};
+use crate::gui::inspectors::expr::ExprInspector;
+use crate::gui::inspectors::{Inspector, InspectorEvent};
 use crate::gui::models::attr::XAttr;
 use crate::gui::models::modifier::{
     XAccelModifier,
@@ -22,20 +22,20 @@ use crate::gui::styling::colors::*;
 use crate::gui::styling::fonts::*;
 use crate::gui::styling::icons::ProductIcon;
 
-pub struct UpdateModifierFacet
+pub struct UpdateModifierInspector
 {
     type_dropdown:      Entity<Dropdown>,
     current_modifier:   XUpdateModifier,
-    accel_expr:         Entity<ExprFacet>,
-    origin_expr:        Entity<ExprFacet>,
-    axis_expr:          Entity<ExprFacet>,
-    drag_expr:          Entity<ExprFacet>,
-    value_expr:         Entity<ExprFacet>,
+    accel_expr:         Entity<ExprInspector>,
+    origin_expr:        Entity<ExprInspector>,
+    axis_expr:          Entity<ExprInspector>,
+    drag_expr:          Entity<ExprInspector>,
+    value_expr:         Entity<ExprInspector>,
     attribute_dropdown: Entity<Dropdown>,
     _subscriptions:     Vec<gpui::Subscription>,
 }
 
-impl Facet for UpdateModifierFacet
+impl Inspector for UpdateModifierInspector
 {
     type Value = XUpdateModifier;
 
@@ -63,11 +63,11 @@ impl Facet for UpdateModifierFacet
         let (accel_init, origin_init, axis_init, drag_init, value_init, attribute_init) =
             Self::extract_initial_values(&initial);
 
-        let accel_expr = cx.new(|cx| ExprFacet::new(cx, accel_init));
-        let origin_expr = cx.new(|cx| ExprFacet::new(cx, origin_init));
-        let axis_expr = cx.new(|cx| ExprFacet::new(cx, axis_init));
-        let drag_expr = cx.new(|cx| ExprFacet::new(cx, drag_init));
-        let value_expr = cx.new(|cx| ExprFacet::new(cx, value_init));
+        let accel_expr = cx.new(|cx| ExprInspector::new(cx, accel_init));
+        let origin_expr = cx.new(|cx| ExprInspector::new(cx, origin_init));
+        let axis_expr = cx.new(|cx| ExprInspector::new(cx, axis_init));
+        let drag_expr = cx.new(|cx| ExprInspector::new(cx, drag_init));
+        let value_expr = cx.new(|cx| ExprInspector::new(cx, value_init));
 
         // Create custom attribute dropdown with icons and type information
         let attribute_dropdown = cx.new(|cx| {
@@ -96,7 +96,7 @@ impl Facet for UpdateModifierFacet
             |this, _dropdown, event: &DropdownEvent, cx| {
                 let DropdownEvent::SelectionChanged(index) = event;
                 this.on_type_changed(*index, cx);
-                cx.emit(FacetEvent::Updated {
+                cx.emit(InspectorEvent::Updated {
                     v: this.get_value(cx),
                 });
             },
@@ -107,40 +107,40 @@ impl Facet for UpdateModifierFacet
         // Subscribe to all expression field changes
         subscriptions.push(cx.subscribe(
             &accel_expr,
-            |this, _entity, _event: &FacetEvent<Option<crate::gui::expr::XExpr>>, cx| {
-                cx.emit(FacetEvent::Updated {
+            |this, _entity, _event: &InspectorEvent<Option<crate::gui::expr::XExpr>>, cx| {
+                cx.emit(InspectorEvent::Updated {
                     v: this.get_value(cx),
                 });
             },
         ));
         subscriptions.push(cx.subscribe(
             &origin_expr,
-            |this, _entity, _event: &FacetEvent<Option<crate::gui::expr::XExpr>>, cx| {
-                cx.emit(FacetEvent::Updated {
+            |this, _entity, _event: &InspectorEvent<Option<crate::gui::expr::XExpr>>, cx| {
+                cx.emit(InspectorEvent::Updated {
                     v: this.get_value(cx),
                 });
             },
         ));
         subscriptions.push(cx.subscribe(
             &axis_expr,
-            |this, _entity, _event: &FacetEvent<Option<crate::gui::expr::XExpr>>, cx| {
-                cx.emit(FacetEvent::Updated {
+            |this, _entity, _event: &InspectorEvent<Option<crate::gui::expr::XExpr>>, cx| {
+                cx.emit(InspectorEvent::Updated {
                     v: this.get_value(cx),
                 });
             },
         ));
         subscriptions.push(cx.subscribe(
             &drag_expr,
-            |this, _entity, _event: &FacetEvent<Option<crate::gui::expr::XExpr>>, cx| {
-                cx.emit(FacetEvent::Updated {
+            |this, _entity, _event: &InspectorEvent<Option<crate::gui::expr::XExpr>>, cx| {
+                cx.emit(InspectorEvent::Updated {
                     v: this.get_value(cx),
                 });
             },
         ));
         subscriptions.push(cx.subscribe(
             &value_expr,
-            |this, _entity, _event: &FacetEvent<Option<crate::gui::expr::XExpr>>, cx| {
-                cx.emit(FacetEvent::Updated {
+            |this, _entity, _event: &InspectorEvent<Option<crate::gui::expr::XExpr>>, cx| {
+                cx.emit(InspectorEvent::Updated {
                     v: this.get_value(cx),
                 });
             },
@@ -150,7 +150,7 @@ impl Facet for UpdateModifierFacet
         subscriptions.push(cx.subscribe(
             &attribute_dropdown,
             |this, _dropdown, _event: &DropdownEvent, cx| {
-                cx.emit(FacetEvent::Updated {
+                cx.emit(InspectorEvent::Updated {
                     v: this.get_value(cx),
                 });
             },
@@ -245,7 +245,7 @@ impl Facet for UpdateModifierFacet
     }
 }
 
-impl UpdateModifierFacet
+impl UpdateModifierInspector
 {
     fn on_type_changed(&mut self, type_index: usize, cx: &mut Context<Self>)
     {
@@ -256,12 +256,12 @@ impl UpdateModifierFacet
         let (accel_init, origin_init, axis_init, drag_init, value_init, attribute_init) =
             Self::extract_initial_values(&new_modifier);
 
-        // Recreate the facet instances with new values
-        self.accel_expr = cx.new(|cx| ExprFacet::new(cx, accel_init));
-        self.origin_expr = cx.new(|cx| ExprFacet::new(cx, origin_init));
-        self.axis_expr = cx.new(|cx| ExprFacet::new(cx, axis_init));
-        self.drag_expr = cx.new(|cx| ExprFacet::new(cx, drag_init));
-        self.value_expr = cx.new(|cx| ExprFacet::new(cx, value_init));
+        // Recreate the inspector instances with new values
+        self.accel_expr = cx.new(|cx| ExprInspector::new(cx, accel_init));
+        self.origin_expr = cx.new(|cx| ExprInspector::new(cx, origin_init));
+        self.axis_expr = cx.new(|cx| ExprInspector::new(cx, axis_init));
+        self.drag_expr = cx.new(|cx| ExprInspector::new(cx, drag_init));
+        self.value_expr = cx.new(|cx| ExprInspector::new(cx, value_init));
 
         // Recreate attribute dropdown with icons and type information
         self.attribute_dropdown = cx.new(|cx| {
@@ -292,7 +292,7 @@ impl UpdateModifierFacet
             |this, _dropdown, event: &DropdownEvent, cx| {
                 let DropdownEvent::SelectionChanged(index) = event;
                 this.on_type_changed(*index, cx);
-                cx.emit(FacetEvent::Updated {
+                cx.emit(InspectorEvent::Updated {
                     v: this.get_value(cx),
                 });
             },
@@ -301,40 +301,40 @@ impl UpdateModifierFacet
         // Re-subscribe to all expression field changes
         self._subscriptions.push(cx.subscribe(
             &self.accel_expr,
-            |this, _entity, _event: &FacetEvent<Option<crate::gui::expr::XExpr>>, cx| {
-                cx.emit(FacetEvent::Updated {
+            |this, _entity, _event: &InspectorEvent<Option<crate::gui::expr::XExpr>>, cx| {
+                cx.emit(InspectorEvent::Updated {
                     v: this.get_value(cx),
                 });
             },
         ));
         self._subscriptions.push(cx.subscribe(
             &self.origin_expr,
-            |this, _entity, _event: &FacetEvent<Option<crate::gui::expr::XExpr>>, cx| {
-                cx.emit(FacetEvent::Updated {
+            |this, _entity, _event: &InspectorEvent<Option<crate::gui::expr::XExpr>>, cx| {
+                cx.emit(InspectorEvent::Updated {
                     v: this.get_value(cx),
                 });
             },
         ));
         self._subscriptions.push(cx.subscribe(
             &self.axis_expr,
-            |this, _entity, _event: &FacetEvent<Option<crate::gui::expr::XExpr>>, cx| {
-                cx.emit(FacetEvent::Updated {
+            |this, _entity, _event: &InspectorEvent<Option<crate::gui::expr::XExpr>>, cx| {
+                cx.emit(InspectorEvent::Updated {
                     v: this.get_value(cx),
                 });
             },
         ));
         self._subscriptions.push(cx.subscribe(
             &self.drag_expr,
-            |this, _entity, _event: &FacetEvent<Option<crate::gui::expr::XExpr>>, cx| {
-                cx.emit(FacetEvent::Updated {
+            |this, _entity, _event: &InspectorEvent<Option<crate::gui::expr::XExpr>>, cx| {
+                cx.emit(InspectorEvent::Updated {
                     v: this.get_value(cx),
                 });
             },
         ));
         self._subscriptions.push(cx.subscribe(
             &self.value_expr,
-            |this, _entity, _event: &FacetEvent<Option<crate::gui::expr::XExpr>>, cx| {
-                cx.emit(FacetEvent::Updated {
+            |this, _entity, _event: &InspectorEvent<Option<crate::gui::expr::XExpr>>, cx| {
+                cx.emit(InspectorEvent::Updated {
                     v: this.get_value(cx),
                 });
             },
@@ -344,7 +344,7 @@ impl UpdateModifierFacet
         self._subscriptions.push(cx.subscribe(
             &self.attribute_dropdown,
             |this, _dropdown, _event: &DropdownEvent, cx| {
-                cx.emit(FacetEvent::Updated {
+                cx.emit(InspectorEvent::Updated {
                     v: this.get_value(cx),
                 });
             },
@@ -428,7 +428,7 @@ impl UpdateModifierFacet
     }
 }
 
-impl Render for UpdateModifierFacet
+impl Render for UpdateModifierInspector
 {
     fn render(&mut self, _window: &mut Window, _cx: &mut Context<Self>) -> impl IntoElement
     {

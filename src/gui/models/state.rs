@@ -1,38 +1,9 @@
 use bevy::math::Vec2;
-#[cfg(not(feature = "jarl"))]
-use bevy_hanabi::graph::{ScalarValue, Value};
-#[cfg(not(feature = "jarl"))]
-use bevy_hanabi::{
-    AccelModifier,
-    Attribute,
-    BoxedModifier,
-    ColorOverLifetimeModifier,
-    EffectAsset,
-    Expr,
-    LinearDragModifier,
-    Property,
-    RadialAccelModifier,
-    SetAttributeModifier,
-    SetPositionCircleModifier,
-    SetPositionCone3dModifier,
-    SetPositionSphereModifier,
-    SetVelocityCircleModifier,
-    SetVelocitySphereModifier,
-    SetVelocityTangentModifier,
-    ShapeDimension,
-    SimulationCondition,
-    SimulationSpace,
-    SizeOverLifetimeModifier,
-    TangentAccelModifier,
-    *,
-};
-#[cfg(feature = "jarl")]
-use graph::{ScalarValue, Value};
 // ====================
 // Particles.
 // ====================
-#[cfg(feature = "jarl")]
-use jarl_particles::{
+use bevy_hanabi::graph::{ScalarValue, Value};
+use bevy_hanabi::{
     AccelModifier,
     Attribute,
     BoxedModifier,
@@ -61,7 +32,7 @@ use jarl_particles::{
 // Editor.
 // ====================
 use crate::gui::expr::{XBinaryOp, XBuiltInOp, XExpr, XUnaryOp, XValue};
-use crate::gui::facets::spawner::SpawnerData;
+use crate::gui::inspectors::spawner::SpawnerData;
 use crate::gui::models::XDimension;
 use crate::gui::models::attr::XAttr;
 use crate::gui::models::color::HdrColor;
@@ -1042,13 +1013,6 @@ impl FromHanabi
             BuiltInOperator::Time => Ok(XBuiltInOp::Time),
             BuiltInOperator::DeltaTime => Ok(XBuiltInOp::DeltaTime),
             BuiltInOperator::Rand(_) => Ok(XBuiltInOp::Rand),
-            #[cfg(feature = "jarl")]
-            _ => {
-                return Err(XError::UnknownBuiltInOperator(format!(
-                    "Unsupported built-in operator: {:?}",
-                    op
-                )));
-            }
         }
     }
 

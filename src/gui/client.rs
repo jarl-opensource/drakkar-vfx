@@ -3,13 +3,10 @@ use std::net::TcpStream;
 use std::path::Path;
 use std::time::{Duration, Instant};
 
-#[cfg(not(feature = "jarl"))]
-use bevy_hanabi::EffectAsset;
 // ====================
 // Particles.
 // ====================
-#[cfg(feature = "jarl")]
-use jarl_particles::EffectAsset;
+use bevy_hanabi::EffectAsset;
 // ====================
 // Deps.
 // ====================
