@@ -1,6 +1,8 @@
 # Drakkar VFX
 
 [![CI](https://github.com/jarl-opensource/drakkar-vfx/actions/workflows/rust.yml/badge.svg?branch=main)](https://github.com/jarl-opensource/drakkar-vfx/actions/workflows/rust.yml)
+[![License](https://img.shields.io/github/license/jarl-opensource/drakkar-vfx)](LICENSE)
+![Discord](https://img.shields.io/discord/1076234370601451611?logo=discord)
 
 Simple VFX editor for [Bevy](https://bevyengine.org/) and [Hanabi](https://github.com/djeedai/bevy_hanabi).
 
